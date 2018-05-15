@@ -26,10 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Observable;
+import java.util.*;
 
 import de.dfki.mycbr.core.Project;
 import de.dfki.mycbr.core.casebase.*;
@@ -43,20 +40,17 @@ import de.dfki.mycbr.core.similarity.config.MultipleConfig;
  * @author myCBR Team
  *
  */
-public class DateFct extends Observable implements ISimFct {
+public class DateFct extends SimFct {
 
     public enum DateFunctionPrecision { Second, Minute, Hour, Day, Month, Year }
 
-	private Project prj;
-	private String name;
-	private DateDesc desc;
+	private DateDesc subDesc;
 	protected MultipleConfig mc = MultipleConfig.DEFAULT_CONFIG;
     private DateFunctionPrecision precision;
 
 	public DateFct(Project prj,DateDesc desc, String name, DateFunctionPrecision precision) {
-		this.prj = prj;
-		this.desc = desc;
-		this.name = name;
+		super(prj,desc,name);
+		this.subDesc = desc;
         this.precision = precision;
 	}
 	
@@ -209,8 +203,8 @@ public class DateFct extends Observable implements ISimFct {
 	 * @param name the name of this function
 	 */
 	public void setName(String name) {
-		if (desc.getFct(name) == null) {
-			desc.renameFct(this.name, name);
+		if (subDesc.getFct(name) == null) {
+			subDesc.renameFct(this.name, name);
 			this.name = name;
 			setChanged();
 			notifyObservers();
@@ -243,4 +237,13 @@ public class DateFct extends Observable implements ISimFct {
     public void setPrecision(DateFunctionPrecision adj) {
         this.precision = adj;
     }
+
+	@Override
+	public HashMap<String,Object> getRepresentation(){
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("type",this.getClass().getName());
+		ret.put("precision",this.precision);
+		ret.put("multipleConfig",this.mc);
+		return ret;
+	}
 }

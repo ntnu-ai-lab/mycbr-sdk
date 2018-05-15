@@ -26,10 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
+import java.util.*;
 
 import de.dfki.mycbr.core.Project;
 import de.dfki.mycbr.core.casebase.SymbolAttribute;
@@ -62,7 +59,6 @@ public class TaxonomyFct extends SymbolFct {
 	 * Tree like structure on which similarity is computed
 	 */
 	private Taxonomy taxonomy;
-	private Project prj;
 
 	/**
 	 * Initializes this with a new taxonomy as internal data structure.
@@ -77,8 +73,7 @@ public class TaxonomyFct extends SymbolFct {
 			List<SymbolAttribute> values, String name) {
 		super(prj, topSymbol, name);
 		topSymbol.addObserver(this);
-		
-		this.prj = prj;
+
 		taxonomy = new Taxonomy(topSymbol);
 		//taxonomy.addObserver(this);
 	}
@@ -410,7 +405,7 @@ public class TaxonomyFct extends SymbolFct {
 	/**
 	 * Updates the similarity of node root to sim
 	 * 
-	 * @param topSymbol
+	 * @param att
 	 *            top symbol
 	 * @param sim
 	 *            Similarity.get
@@ -426,7 +421,7 @@ public class TaxonomyFct extends SymbolFct {
 	/**
 	 * Updates the similarity of node specified by att to sim
 	 * 
-	 * @param topSymbol
+	 * @param desc
 	 *            top symbol
 	 * @param sim
 	 *            Similarity.get
@@ -509,5 +504,14 @@ public class TaxonomyFct extends SymbolFct {
 	 */
 	public Collection<Map.Entry<TaxonomyNode, TaxonomyNode>> entrySet() {
 		return taxonomy.getParentMap().entrySet();
+	}
+
+	@Override
+	public HashMap<String,Object> getRepresentation(){
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("queryConfig",this.queryConfig);
+		ret.put("caseConfig",this.caseConfig);
+		ret.put("taxonomy",this.taxonomy); //TODO: this will not work
+		return ret;
 	}
 }

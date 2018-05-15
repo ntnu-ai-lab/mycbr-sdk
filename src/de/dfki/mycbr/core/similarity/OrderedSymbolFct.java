@@ -95,8 +95,8 @@ public class OrderedSymbolFct extends SymbolFct implements Observer {
 	 * @throws Exception 
 	 */
 	public void updateTable() throws Exception {
-		for (SymbolAttribute att1: desc.getSymbolAttributes()) {
-			for (SymbolAttribute att2: desc.getSymbolAttributes()) {
+		for (SymbolAttribute att1: subDesc.getSymbolAttributes()) {
+			for (SymbolAttribute att2: subDesc.getSymbolAttributes()) {
 				
 				Integer queryInt = order.get(att1);
 				Integer caseInt = order.get(att2);
@@ -247,7 +247,7 @@ public class OrderedSymbolFct extends SymbolFct implements Observer {
 	 * @param att the attribute to be added
 	 */
 	public void addSymbol(SymbolAttribute att) {
-		if (desc.isAllowedValue(att.getValue())) {
+		if (subDesc.isAllowedValue(att.getValue())) {
 			if (!order.containsKey(att)) {
 				highestOrder = highestOrder+1;
 				order.put(att, highestOrder);
@@ -267,7 +267,7 @@ public class OrderedSymbolFct extends SymbolFct implements Observer {
 		boolean updateHighestOrder = order.get(att).equals(highestOrder);
 		boolean updateMinOrder = order.get(att).equals(minOrder);
 		
-		if (desc.isAllowedValue(att.getValue())) {
+		if (subDesc.isAllowedValue(att.getValue())) {
 			highestOrder = index > highestOrder ? index : highestOrder;
 			minOrder = index < minOrder ? index : minOrder;
 			

@@ -26,6 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
+import java.util.HashMap;
 import java.util.Observable;
 
 import de.dfki.mycbr.core.Project;
@@ -47,40 +48,32 @@ import de.dfki.mycbr.util.Pair;
  * 
  * @author myCBR Team
  */
-public class SymbolFct extends Observable implements ISimFct {
+public class SymbolFct extends SimFct {
+
+	protected SymbolDesc subDesc;
 
 	/**
 	 * Underlying array which holds the similarities of each pair of SymbolAttributes
 	 */
 	protected Similarity[][] sims;
-	
-	protected String name;
-	
-	/**
-	 * The description of the given attributes
-	 */
-	protected SymbolDesc desc;
-	
-	protected boolean isSymmetric = true;
-	protected Project prj;
+
 	protected MultipleConfig mc = MultipleConfig.DEFAULT_CONFIG;
-	
+
 	/**
 	 * Initializes this by asking the given description
 	 * for the number of allowed symbols. This number determines
 	 * the size of the underlying table. Calls {@link #initTable()}
 	 * to fill the table with default values.
-	 * 
-	 * @param desc the description of the given symbol attributes 
+	 *
+	 * @param desc the description of the given symbol attributes
 	 */
-	public SymbolFct(Project prj,SymbolDesc desc, String name) { 
-		this.prj = prj;
-		this.desc = desc;
+	public SymbolFct(Project prj,SymbolDesc desc, String name) {
+		super(prj,desc,name);
+		this.subDesc = desc;
 		desc.addObserver(this);
-		this.name = name;
 		int count = 0;
 		if (desc != null) {
-			count = this.desc.getAllowedValues().size();
+			count = this.subDesc.getAllowedValues().size();
 		}
 		if (count != 0) {
 			sims = new Similarity[count][count];
@@ -89,65 +82,65 @@ public class SymbolFct extends Observable implements ISimFct {
 		}
 		initTable();
 	}
-	
+
 	/**
 	 * Initializes this by transforming the given symbol function into
-	 * a similarity table. 
+	 * a similarity table.
 	 * To change f by this function you have to call
 	 * {@link SymbolDesc#deleteSimFct(ISimFct)} and then {@link SymbolDesc#addFct(ISimFct)}
-	 * 
-	 * @param f any symbol function 
+	 *
+	 * @param f any symbol function
 	 */
-	public SymbolFct(SymbolFct f) { 
+	public SymbolFct(SymbolFct f) {
+		super(f.getProject(),f.getDesc(),f.getName());
 		this.prj = f.getProject();
-		this.desc = f.getDesc();
+		this.subDesc = f.getDesc();
 		desc.addObserver(this);
-		this.name = f.getName();
 		this.sims = f.sims;
 		this.isSymmetric = f.isSymmetric;
 		this.mc = f.mc;
 	}
-	
+
 	/**
 	 * Initializes the underlying table with default values.
 	 * The diagonal is initialized with 1.00 and everything else with 0.00.
 	 */
 	protected void initTable() {
-		
+
 		for (int i = 0; i<sims.length; i++) {
 			for (int j = 0; j<sims[i].length; j++) {
 				sims[i][j] = i == j ? Similarity.get(1.00) : Similarity.get(0.00);
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Returns the similarity of the given attributes.
 	 * Returns null if the attributes do not have the same description,
 	 * if they are not of type SymbolAttribute or SpecialValueAttribute,
-	 * or if there is something wrong with the index structure provided by 
+	 * or if there is something wrong with the index structure provided by
 	 * the given range.
 	 * @param attribute first attribute
 	 * @param attribute2 second attribute
 	 * @return similarity of the given attributes, invalid similarity if an error occurs
-	 * @throws Exception 
-	 * 
+	 * @throws Exception
+	 *
 	 */
 	public Similarity calculateSimilarity(Attribute attribute, Attribute attribute2) {
 		Similarity result = Similarity.INVALID_SIM;
 		if ((attribute instanceof SpecialAttribute) || (attribute2 instanceof SpecialAttribute) ){
-			result = prj.calculateSpecialSimilarity(attribute, attribute2);	
+			result = prj.calculateSpecialSimilarity(attribute, attribute2);
 		} else if (attribute instanceof MultipleAttribute<?> && attribute2 instanceof MultipleAttribute<?>) {
 			result = prj
 			.calculateMultipleAttributeSimilarity(this,((MultipleAttribute<?>)attribute), (MultipleAttribute<?>)attribute2);
 		} else if((attribute instanceof SymbolAttribute) && (attribute2 instanceof SymbolAttribute) ){
 			SymbolAttribute att1 = (SymbolAttribute)attribute;
 			SymbolAttribute att2 = (SymbolAttribute)attribute2;
-			
+
 			if(att1.getAttributeDesc().equals(att2.getAttributeDesc())) {
-				Integer index1 = desc.getIndexOf(att1);
-				Integer index2 = desc.getIndexOf(att2);
+				Integer index1 = subDesc.getIndexOf(att1);
+				Integer index2 = subDesc.getIndexOf(att2);
 				if (index1!=null && index2!=null) {
 					try {
 						result = sims[index1][index2];
@@ -155,32 +148,32 @@ public class SymbolFct extends Observable implements ISimFct {
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
-		} 
+		}
 		return result;
 	}
-	
+
 	/**
 	 * Returns the similarity of the given attributes.
 	 * Returns null if the attributes do not have the same description,
 	 * if they are not of type SymbolAttribute or SpecialValueAttribute,
-	 * or if there is something wrong with the index structure provided by 
+	 * or if there is something wrong with the index structure provided by
 	 * the given range.
 	 * @param value1 first attribute
 	 * @param value2 second attribute
 	 * @return similarity of the given attributes, invalid similarity if an error occurs
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	public Similarity calculateSimilarity(String value1, String value2) throws Exception { 
+	public Similarity calculateSimilarity(String value1, String value2) throws Exception {
 		return calculateSimilarity(desc.getAttribute(value1), desc.getAttribute(value2));
 	}
-	
+
 	/**
 	 * Sets the similarity of att1 and att2 to a Similarity.get object
-	 * initialized with sim. 
+	 * initialized with sim.
 	 * Calls {@link #setSimilarity(Attribute, Attribute, Similarity)}
-	 * 
+	 *
 	 * @param att1 the first attribute
 	 * @param att2 the second attribute
 	 * @param sim the Similarity.get
@@ -192,47 +185,47 @@ public class SymbolFct extends Observable implements ISimFct {
 
 	/**
 	 * Sets the similarity of the given symbols to a Similarity.get object
-	 * initialized with sim. 
+	 * initialized with sim.
 	 * Calls {@link #setSimilarity(Attribute, Attribute, Similarity)}
-	 * 
+	 *
 	 * @param symbol1 the first attribute's value
 	 * @param symbol2 the second attribute's value
 	 * @param sim the Similarity.get
 	 * @return true, if the similarity has been updated successfully, false otherwise
 	 */
 	public boolean setSimilarity(String symbol1, String symbol2, double sim) {
-		return setSimilarity(desc.getAttribute(symbol1), desc.getAttribute(symbol2), Similarity.get(sim));
+		return setSimilarity(subDesc.getAttribute(symbol1), subDesc.getAttribute(symbol2), Similarity.get(sim));
 	}
-	
+
 	/**
 	 * Sets the similarity the given symbols to sim.
 	 * Calls {@link #setSimilarity(Attribute, Attribute, Similarity)}
-	 * 
+	 *
 	 * @param symbol1 the first attribute's value
 	 * @param symbol2 the second attribute's value
 	 * @param sim the Similarity.get
 	 * @return true, if the similarity has been updated successfully, false otherwise
 	 */
 	public boolean setSimilarity(String symbol1, String symbol2, Similarity sim) {
-		return setSimilarity(desc.getAttribute(symbol1), desc.getAttribute(symbol2), sim);
+		return setSimilarity(subDesc.getAttribute(symbol1), subDesc.getAttribute(symbol2), sim);
 	}
-	
+
 	/**
-	 * Sets the similarity of att1 and att2 to sim. 
+	 * Sets the similarity of att1 and att2 to sim.
 	 * If this function is symmetric also sets the similarity of
 	 * att2 and att1 to sim.
 	 * Returns true if the similarity has been successfully updated,
 	 * false if there is something wrong with the index structure provided by the given range
 	 * or if the attributes are not contained in this range.
-	 * 
+	 *
 	 * @param att1 the first attribute
 	 * @param att2 the second attribute
 	 * @param sim the Similarity.get
 	 * @return true, if the similarity has been updated successfully, false otherwise
 	 */
 	public boolean setSimilarity(Attribute att1, Attribute att2, Similarity sim) {
-		Integer index1 = desc.getIndexOf((SymbolAttribute)att1); 
-		Integer index2 = desc.getIndexOf((SymbolAttribute)att2);
+		Integer index1 = subDesc.getIndexOf((SymbolAttribute)att1);
+		Integer index2 = subDesc.getIndexOf((SymbolAttribute)att2);
 		if (index1!=null && index2!=null) {
 				try {
 					sims[index1][index2] = sim;
@@ -248,25 +241,25 @@ public class SymbolFct extends Observable implements ISimFct {
 		}
 		return false;
 	}
-			
+
 	/**
 	 * Expands the underlying table by one row and one column.
 	 * The new cells are initialized with 0.00 and 1.00 respectively.
 	 * Returns false if the attribute is not contained in the given range
 	 * or if there is something wrong with the index returned by this range for the
 	 * given attribute.
-	 * 
+	 *
 	 * @param att the new attribute to be added for similarity computations
 	 * @return true, if the table could be updated correctly, false otherwise
 	 */
 	protected boolean addAttribute(SymbolAttribute att) {
 		Similarity[][] simsNew  = new Similarity[sims.length+1][sims.length+1];
-		
-		Integer index = desc.getIndexOf(att);
+
+		Integer index = subDesc.getIndexOf(att);
 		if (index == null) {
 			return false;
 		}
-		
+
 		try {
 			for (int i = 0; i<simsNew.length; i++) {
 				for (int j = 0; j<simsNew[i].length; j++) {
@@ -280,30 +273,30 @@ public class SymbolFct extends Observable implements ISimFct {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
-		
+
 		sims = simsNew;
 		setChanged();
 		notifyObservers();
 
 		return true;
 	}
-	
+
 	/**
 	 * Reduces the underlying table by one row and one column.
 	 * Returns false if the attribute is not contained in the given range
 	 * or if there is something wrong with the index returned by this range for the
 	 * given attribute.
-	 * 
+	 *
 	 * @param index the index of the attribute to be removed
 	 * @return true, if the table could be updated correctly, false otherwise
 	 */
 	protected boolean removeAttribute(Integer index) {
 		Similarity[][] simsNew  = new Similarity[sims.length-1][sims.length-1];
-		
+
 		if (index == null) {
 			return false;
 		}
-		
+
 		try {
 			for (int i = 0; i<simsNew.length; i++) {
 				for (int j = 0; j<simsNew[i].length; j++) {
@@ -317,7 +310,7 @@ public class SymbolFct extends Observable implements ISimFct {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
-		
+
 		sims = simsNew;
 		setChanged();
 		notifyObservers();
@@ -331,16 +324,16 @@ public class SymbolFct extends Observable implements ISimFct {
 	@Override
 	/**
 	 * Specifies whether this function is symmetric or not.
-	 * 
+	 *
 	 * @return true, if this function is symmetric, false otherwise
 	 */
 	public boolean isSymmetric() {
 		return isSymmetric;
 	}
-	
+
 	/**
 	 * Specifies whether this function is symmetric or not.
-	 * 
+	 *
 	 * @param symmetric true, if this function is symmetric, false otherwise
 	 */
 	public void setSymmetric(boolean symmetric) {
@@ -351,15 +344,15 @@ public class SymbolFct extends Observable implements ISimFct {
 		setChanged();
 		notifyObservers();
 	}
-	
+
 	/**
 	 * Gets the symbol description of the attributes this function
 	 * is defined on
-	 * 
+	 *
 	 * @return symbol description of the given attributes
 	 */
 	public SymbolDesc getDesc() {
-		return desc;
+		return subDesc;
 	}
 
 	/* (non-Javadoc)
@@ -384,8 +377,8 @@ public class SymbolFct extends Observable implements ISimFct {
 	 * @param name the name of this function
 	 */
 	public void setName(String name) {
-		if (desc.getFct(name) == null) {
-			desc.renameFct(this.name, name);
+		if (subDesc.getFct(name) == null) {
+			subDesc.renameFct(this.name, name);
 			this.name = name;
 			setChanged();
 			notifyObservers();
@@ -424,7 +417,7 @@ public class SymbolFct extends Observable implements ISimFct {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o.equals(desc)) {
+		if (o.equals(subDesc)) {
 			// attribute has been removed
 			if (arg instanceof Pair<?, ?>) {
 				Pair<SymbolAttribute,Integer> removedAtt = (Pair<SymbolAttribute,Integer>)arg;
@@ -448,5 +441,14 @@ public class SymbolFct extends Observable implements ISimFct {
 			f.isSymmetric = this.isSymmetric;
 			f.mc = this.mc;
 		}
+	}
+
+	@Override
+	public HashMap<String, Object> getRepresentation() {
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("sims",sims);
+		ret.put("type",this.getClass().getName());
+		ret.put("multipleConfig",this.mc);
+		return ret;
 	}
 }

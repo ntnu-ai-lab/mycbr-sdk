@@ -26,6 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
+import java.util.HashMap;
 import java.util.Observable;
 
 import de.dfki.mycbr.core.Project;
@@ -87,7 +88,7 @@ public class DoubleFct extends NumberFct {
 	private NumberConfig functionTypeL = NumberConfig.CONSTANT;
 	private double functionParameterL = constantValue;
 
-	protected DoubleDesc desc;
+	protected DoubleDesc subDesc;
 	protected DoubleRange range;
 
 	/**
@@ -100,14 +101,13 @@ public class DoubleFct extends NumberFct {
 	 */
 	public DoubleFct(Project prj, DoubleDesc desc, String name) {
 		super(prj, desc, name);
-		this.prj = prj;
+		this.subDesc = desc;
 		this.range = desc.getRange();
-		this.desc = desc;
+
 
 		max = desc.getMax();
 		min = desc.getMin();
 		diff = max - min;
-		this.name = name;
 	}
 
 	/**
@@ -609,9 +609,9 @@ public class DoubleFct extends NumberFct {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 
-		if (arg0.equals(desc)) {
-			super.min = desc.getMin();
-			super.max = desc.getMax();
+		if (arg0.equals(subDesc)) {
+			super.min = subDesc.getMin();
+			super.max = subDesc.getMax();
 			super.diff = max - min;
 			updateFunctionParams();
 		}
@@ -662,5 +662,21 @@ public class DoubleFct extends NumberFct {
 			notifyObservers();
 		} 
 		updateFunctionParams();
+	}
+
+	@Override
+	public HashMap<String,Object> getRepresentation(){
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("type",this.getClass().getName());
+		ret.put("constantValue",this.constantValue);
+		ret.put("stepAtValue",this.stepAtValue);
+		ret.put("polynomialWithValue",this.polynomialWithValue);
+		ret.put("smoothStepAtValue",this.smoothStepAtValue);
+		ret.put("maxForQuotient",this.maxForQuotient);
+		ret.put("functionTypeR",this.functionTypeR);
+		ret.put("functionParameterR",this.functionParameterR);
+		ret.put("functionTypeL",this.functionTypeL);
+		ret.put("functionParameterL",this.functionParameterL);
+		return ret;
 	}
 }

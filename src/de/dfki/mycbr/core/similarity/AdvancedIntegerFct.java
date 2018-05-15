@@ -26,10 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Observable;
-import java.util.TreeMap;
+import java.util.*;
 
 import de.dfki.mycbr.core.Project;
 import de.dfki.mycbr.core.casebase.Attribute;
@@ -59,7 +56,7 @@ public class AdvancedIntegerFct extends NumberFct {
 	private Similarity minPoint;
 	private Similarity zeroPoint;
 	private Similarity maxPoint;
-	private IntegerDesc desc;
+	private IntegerDesc subDesc = null;
 	
 	/**
 	 * Initializes this with the given description. This function can
@@ -70,9 +67,7 @@ public class AdvancedIntegerFct extends NumberFct {
 	 */
 	public AdvancedIntegerFct(Project prj, IntegerDesc desc, String name) {
 		super(prj,desc,name);
-		this.prj = prj;
-		this.name = name;
-		this.desc = desc;
+		this.subDesc = desc;
 		points = new TreeMap<Double, Similarity>();
 		minPoint = Similarity.get(0.00);
 		zeroPoint = Similarity.get(1.00);
@@ -262,8 +257,8 @@ public class AdvancedIntegerFct extends NumberFct {
 	public void update(Observable arg0, Object arg1) {
 		
 		if (arg0.equals(desc)) {
-			super.min = desc.getMin();
-			super.max = desc.getMax();
+			super.min = subDesc.getMin();
+			super.max = subDesc.getMax();
 			super.diff = max-min;
 			updatePoints();
 		}
@@ -285,5 +280,15 @@ public class AdvancedIntegerFct extends NumberFct {
 		points = newPoints;
 		setDistanceFct(df);
 	}
-	
+
+	@Override
+	public HashMap<String,Object> getRepresentation(){
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("type",this.getClass().getName());
+		ret.put("points",this.points);
+		ret.put("minPoint",this.minPoint);
+		ret.put("zeroPoint",this.zeroPoint);
+		ret.put("maxPoint",this.maxPoint);
+		return ret;
+	}
 }

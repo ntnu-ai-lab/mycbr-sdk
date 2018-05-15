@@ -26,6 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Observable;
 
@@ -45,9 +46,9 @@ import de.dfki.mycbr.core.similarity.config.StringConfig;
  * 
  * @author myCBR Team
  */
-public class StringFct extends Observable implements ISimFct {
+public class StringFct extends SimFct {
 
-	private StringDesc desc;
+	private StringDesc subDesc;
 	private StringConfig config;
 
 	// if config == NGRAM
@@ -56,6 +57,23 @@ public class StringFct extends Observable implements ISimFct {
 	private int levenshteinDelCost = 1;
 	private int levenshteinAddCost = 1;
 	private int levenshteinChangeCost = 1;
+
+	private boolean caseSensitive = true;
+
+	private MultipleConfig mc = MultipleConfig.DEFAULT_CONFIG;
+
+	/**
+	 * Initializes this with the given description.
+	 *
+	 * @param desc
+	 *            the description of the
+	 */
+	public StringFct(Project prj, StringConfig config, StringDesc desc,
+					 String name) {
+		super(prj,desc,name);
+		this.subDesc = desc;
+		this.config = config;
+	}
 
 	/**
 	 * @return the levenshteinDelCost
@@ -114,25 +132,6 @@ public class StringFct extends Observable implements ISimFct {
 		}
 	}
 
-	private boolean caseSensitive = true;
-
-	private String name;
-	private Project prj;
-	private MultipleConfig mc = MultipleConfig.DEFAULT_CONFIG;
-
-	/**
-	 * Initializes this with the given description.
-	 * 
-	 * @param desc
-	 *            the description of the
-	 */
-	public StringFct(Project prj, StringConfig config, StringDesc desc,
-			String name) {
-		this.prj = prj;
-		this.desc = desc;
-		this.config = config;
-		this.name = name;
-	}
 
 	/**
 	 * Calculates the similarity of the given attributes. Returns null if an
@@ -374,8 +373,8 @@ public class StringFct extends Observable implements ISimFct {
 	 * @param name the name of this function
 	 */
 	public void setName(String name) {
-		if (desc.getFct(name) == null) {
-			desc.renameFct(this.name, name);
+		if (subDesc.getFct(name) == null) {
+			subDesc.renameFct(this.name, name);
 			this.name = name;
 			setChanged();
 			notifyObservers();
@@ -440,7 +439,7 @@ public class StringFct extends Observable implements ISimFct {
 	public void clone(AttributeDesc descNEW, boolean active) {
 		if (descNEW instanceof StringDesc
 				&& !name.equals(Project.DEFAULT_FCT_NAME)) {
-			StringFct f = desc.addStringFct(config, name, active);
+			StringFct f = subDesc.addStringFct(config, name, active);
 			f.caseSensitive = this.caseSensitive;
 			f.mc = this.mc;
 			f.n = this.n;
@@ -456,5 +455,18 @@ public class StringFct extends Observable implements ISimFct {
 	public void update(Observable o, Object arg) {
 		setChanged();
 		notifyObservers();
+	}
+
+	@Override
+	public HashMap<String,Object> getRepresentation(){
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("config",this.config);
+		ret.put("n",this.n);
+		ret.put("levenshteinDelCost",this.levenshteinDelCost);
+		ret.put("levenshteinAddCost",this.levenshteinAddCost);
+		ret.put("levenshteinChangeCost",this.levenshteinChangeCost);
+		ret.put("caseSensitive",this.caseSensitive);
+		ret.put("multipleconfig",MultipleConfig.DEFAULT_CONFIG);
+		return ret;
 	}
 }

@@ -26,11 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Observable;
-import java.util.TreeMap;
-import java.util.Vector;
+import java.util.*;
 
 import de.dfki.mycbr.core.Project;
 import de.dfki.mycbr.core.casebase.Attribute;
@@ -59,7 +55,7 @@ public class AdvancedFloatFct extends NumberFct {
 	private Similarity minPoint;
 	private Similarity zeroPoint;
 	private Similarity maxPoint;
-	private FloatDesc desc;
+	private FloatDesc subDesc = null;
 
 	// if you have a float function that uses QUOTIENT as DISTANCE_CONFIG
 	// then we need a point, from which on the function should return 0
@@ -73,9 +69,7 @@ public class AdvancedFloatFct extends NumberFct {
 	 */
 	public AdvancedFloatFct(Project prj, FloatDesc desc, String name) {
 		super(prj,desc,name);
-		this.prj = prj;
-		this.name = name;
-		this.desc = desc;
+		this.subDesc = desc;
 		points = new TreeMap<Double, Similarity>();
 		minPoint = Similarity.get(0.00);
 		zeroPoint = Similarity.get(1.00);
@@ -98,9 +92,7 @@ public class AdvancedFloatFct extends NumberFct {
 	 */
 	AdvancedFloatFct(Project prj, FloatDesc desc, Similarity minSim, Similarity zero, Similarity maxSim, String name) {
 		super(prj,desc,name);
-		this.prj = prj;
-		this.desc = desc;
-		this.name = name;
+		this.subDesc = desc;
 		points = new TreeMap<Double, Similarity>();
 		minPoint = minSim;
 		zeroPoint = zero;
@@ -266,8 +258,8 @@ public class AdvancedFloatFct extends NumberFct {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg0.equals(desc)) {
-			super.min = desc.getMin();
-			super.max = desc.getMax();
+			super.min = subDesc.getMin();
+			super.max = subDesc.getMax();
 			super.diff = max-min;
 			updatePoints();
 		}
@@ -323,6 +315,19 @@ public class AdvancedFloatFct extends NumberFct {
 			}
 		}
 		points = newPoints;
+	}
+
+
+	@Override
+	public HashMap<String,Object> getRepresentation(){
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("type",this.getClass().getName());
+		ret.put("points",this.points);
+		ret.put("minPoint",this.minPoint);
+		ret.put("zeroPoint",this.zeroPoint);
+		ret.put("maxPoint",this.maxPoint);
+		ret.put("maxForQuotient",this.maxForQuotient);
+		return ret;
 	}
 
 }

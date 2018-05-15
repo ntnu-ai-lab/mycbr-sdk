@@ -26,11 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Observable;
-import java.util.TreeMap;
-import java.util.Vector;
+import java.util.*;
 
 import de.dfki.mycbr.core.Project;
 import de.dfki.mycbr.core.casebase.Attribute;
@@ -59,7 +55,7 @@ public class AdvancedDoubleFct extends NumberFct {
 	private Similarity minPoint;
 	private Similarity zeroPoint;
 	private Similarity maxPoint;
-	private DoubleDesc desc;
+	private DoubleDesc subDesc = (DoubleDesc) this.desc;
 
 	// if you have a double function that uses QUOTIENT as DISTANCE_CONFIG
 	// then we need a point, from which on the function should return 0
@@ -266,8 +262,8 @@ public class AdvancedDoubleFct extends NumberFct {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg0.equals(desc)) {
-			super.min = desc.getMin();
-			super.max = desc.getMax();
+			super.min = subDesc.getMin();
+			super.max = subDesc.getMax();
 			super.diff = max-min;
 			updatePoints();
 		}
@@ -323,6 +319,19 @@ public class AdvancedDoubleFct extends NumberFct {
 			}
 		}
 		points = newPoints;
+	}
+
+	@Override
+	public HashMap<String,Object> getRepresentation(){
+		HashMap<String,Object> ret = super.getRepresentation();
+
+		ret.put("type",this.getClass().getName());
+		ret.put("points",this.points);
+		ret.put("minPoint",this.minPoint);
+		ret.put("zeroPoint",this.zeroPoint);
+		ret.put("maxPoint",this.maxPoint);
+		ret.put("maxForQuotient",this.maxForQuotient);
+		return ret;
 	}
 
 }

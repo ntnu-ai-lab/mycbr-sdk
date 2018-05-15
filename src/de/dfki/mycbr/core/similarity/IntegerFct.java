@@ -82,7 +82,7 @@ public class IntegerFct extends NumberFct {
 	private NumberConfig functionTypeL = NumberConfig.CONSTANT;
 	private double functionParameterL = constantValue;
 
-	protected IntegerDesc desc;
+	protected IntegerDesc subDesc;
 
 	/**
 	 * Constructor should only be called by FunctionContainer. Initializes this
@@ -94,13 +94,11 @@ public class IntegerFct extends NumberFct {
 	 */
 	public IntegerFct(Project prj, IntegerDesc desc, String name) {
 		super(prj,desc,name);
-		this.prj = prj;
-		this.desc = desc;
+		this.subDesc = desc;
 
 		max = desc.getMax().floatValue();
 		min = desc.getMin().floatValue();
 		diff = max - min;
-		this.name = name;
 	}
 
 	/**
@@ -591,9 +589,9 @@ public class IntegerFct extends NumberFct {
 	 */
 	public void update(Observable arg0, Object arg1) {
 		
-		if (arg0.equals(desc)) {
-			super.min = desc.getMin();
-			super.max = desc.getMax();
+		if (arg0.equals(subDesc)) {
+			super.min = subDesc.getMin();
+			super.max = subDesc.getMax();
 			super.diff = max-min;
 			
 			if (functionTypeL.equals(NumberConfig.SMOOTH_STEP_AT) || functionTypeL.equals(NumberConfig.STEP_AT)) {

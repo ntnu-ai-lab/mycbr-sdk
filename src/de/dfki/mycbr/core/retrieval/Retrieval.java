@@ -83,6 +83,7 @@ public class Retrieval extends HashMap<Instance, Similarity> implements Runnable
         this.cb = cb;
 	    query = c.getQueryInstance();
         re = new SequentialRetrieval(p, this);
+        //re = new NeuralRetrieval(p, this);
     }
 
     /**

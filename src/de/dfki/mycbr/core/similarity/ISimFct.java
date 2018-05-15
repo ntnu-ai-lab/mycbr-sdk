@@ -26,6 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
+import java.util.HashMap;
 import java.util.Observer;
 
 import de.dfki.mycbr.core.Project;
@@ -106,4 +107,5 @@ public interface ISimFct extends Observer {
 	 * @param active
 	 */
 	public void clone(AttributeDesc descNEW, boolean active);
+	public HashMap<String,Object> getRepresentation();
 }

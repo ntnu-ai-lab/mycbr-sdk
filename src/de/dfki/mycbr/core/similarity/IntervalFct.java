@@ -26,6 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
+import java.util.HashMap;
 import java.util.Observable;
 
 import de.dfki.mycbr.core.Project;
@@ -43,17 +44,14 @@ import de.dfki.mycbr.core.similarity.config.MultipleConfig;
  * @author myCBR Team
  *
  */
-public class IntervalFct extends Observable implements ISimFct {
+public class IntervalFct extends SimFct {
 
-	private Project prj;
-	private String name;
-	private IntervalDesc desc;
+	private IntervalDesc subDesc;
 	protected MultipleConfig mc = MultipleConfig.DEFAULT_CONFIG;
 	
-	public IntervalFct(Project prj,IntervalDesc desc2, String name) { 
-		this.prj = prj;
-		this.desc = desc2;
-		this.name = name;
+	public IntervalFct(Project prj,IntervalDesc desc2, String name) {
+		super(prj,desc2,name);
+		this.subDesc = desc2;
 	}
 	
 	/* (non-Javadoc)
@@ -139,8 +137,8 @@ public class IntervalFct extends Observable implements ISimFct {
 	 * @param name the name of this function
 	 */
 	public void setName(String name) {
-		if (desc.getFct(name) == null) {
-			desc.renameFct(this.name, name);
+		if (subDesc.getFct(name) == null) {
+			subDesc.renameFct(this.name, name);
 			this.name = name;
 			setChanged();
 			notifyObservers();
@@ -171,5 +169,12 @@ public class IntervalFct extends Observable implements ISimFct {
 			IntervalFct f = ((IntervalDesc)descNEW).addIntervalFct(name, active);
 			f.mc = this.mc;
 		}
+	}
+	@Override
+	public HashMap<String, Object> getRepresentation() {
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("type",this.getClass().getName());
+		ret.put("multipleConfig",this.mc);
+		return ret;
 	}
 }

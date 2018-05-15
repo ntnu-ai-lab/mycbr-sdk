@@ -26,6 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
+import java.util.HashMap;
 import java.util.Observable;
 
 import de.dfki.mycbr.core.Project;
@@ -42,28 +43,24 @@ import de.dfki.mycbr.core.similarity.config.MultipleConfig;
  * @author myCBR Team
  *
  */
-public abstract class NumberFct extends Observable implements ISimFct {
+public abstract class NumberFct extends SimFct {
 	
 	protected MultipleConfig mc = MultipleConfig.DEFAULT_CONFIG;
 
 	protected double max;
 	protected double min;
 	protected double diff;
-	
-	protected Boolean isSymmetric = true;
+
+	protected SimpleAttDesc subDesc;
+
 	
 	protected DistanceConfig distanceFunction = DistanceConfig.DIFFERENCE;
-	
-	protected Project prj;
-	protected String name;
-	
-	protected SimpleAttDesc desc;
+
 	
 	public NumberFct(Project p, SimpleAttDesc d, String n) {
-		this.prj = p;
-		this.desc = d;
-		this.name = n;
-		d.addObserver(this);
+		super(p,d,n);
+		this.subDesc = d;
+
 	}
 	
 	/* (non-Javadoc)
@@ -117,8 +114,8 @@ public abstract class NumberFct extends Observable implements ISimFct {
 	 * @param name the name of this function
 	 */
 	public void setName(String name) {
-		if (desc.getFct(name) == null) {
-			desc.renameFct(this.name, name);
+		if (subDesc.getFct(name) == null) {
+			subDesc.renameFct(this.name, name);
 			this.name = name;
 			setChanged();
 			notifyObservers();
@@ -172,6 +169,17 @@ public abstract class NumberFct extends Observable implements ISimFct {
 	 */
 	public AttributeDesc getDesc() {
 		return desc;
+	}
+
+	@Override
+	public HashMap<String,Object> getRepresentation(){
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("multipleconfig",MultipleConfig.DEFAULT_CONFIG);
+		ret.put("max",this.max);
+		ret.put("min",this.min);
+		ret.put("diff",this.min);
+		ret.put("distancefunction",this.distanceFunction);
+		return ret;
 	}
 
 }
