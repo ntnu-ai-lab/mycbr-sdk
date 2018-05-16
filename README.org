@@ -1,0 +1,13 @@
+* mycbr-sdk
+  :PROPERTIES:
+  :CUSTOM_ID: mycbr-sdk
+  :END:
+
+mycbr sdk (forked from https://git.opendfki.de/mycbr/mycbr-sdk)
+
+* Changelog
+- 15.05.2018 Bjørn Magnus Mathisen
+Indtroduced inheritance in SimilarityFunctions from base class SimFct, this
+should help in deserializing them into REST (see mycbr-rest-example). Also
+introduced Neural retrieval, this will probably be changed into a type for
+amalgamation function.

@@ -109,6 +109,7 @@ public class OrderedSymbolTest extends TestCase {
 			assertTrue("Excpetion in OrderedSymbolTest: testCalculateSimilarity",false);
 		}
 	}
-	
+
+
 
 }

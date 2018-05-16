@@ -55,7 +55,7 @@ public class AdvancedDoubleFct extends NumberFct {
 	private Similarity minPoint;
 	private Similarity zeroPoint;
 	private Similarity maxPoint;
-	private DoubleDesc subDesc = (DoubleDesc) this.desc;
+	private DoubleDesc subDesc;
 
 	// if you have a double function that uses QUOTIENT as DISTANCE_CONFIG
 	// then we need a point, from which on the function should return 0
@@ -69,9 +69,7 @@ public class AdvancedDoubleFct extends NumberFct {
 	 */
 	public AdvancedDoubleFct(Project prj, DoubleDesc desc, String name) {
 		super(prj,desc,name);
-		this.prj = prj;
-		this.name = name;
-		this.desc = desc;
+		this.subDesc = desc;
 		points = new TreeMap<Double, Similarity>();
 		minPoint = Similarity.get(0.00);
 		zeroPoint = Similarity.get(1.00);

@@ -153,8 +153,8 @@ public class IntegerFct extends NumberFct {
 					d = c / q;
 				}
 	
-				if (att1.getAttributeDesc() == desc
-						&& att2.getAttributeDesc() == desc) {
+				if (att1.getAttributeDesc() == subDesc
+						&& att2.getAttributeDesc() == subDesc) {
 					if ((d < 0 && distanceFunction == DistanceConfig.DIFFERENCE)
 							|| (d < 1 && distanceFunction == DistanceConfig.QUOTIENT)) {
 	
@@ -248,7 +248,7 @@ public class IntegerFct extends NumberFct {
 	 * @throws Exception 
 	 */
 	public Similarity calculateSimilarity(Integer value1, Integer value2) throws Exception {
-		return calculateSimilarity(desc.getAttribute(value1),desc
+		return calculateSimilarity(subDesc.getAttribute(value1),subDesc
 				.getAttribute(value2));
 	}
 

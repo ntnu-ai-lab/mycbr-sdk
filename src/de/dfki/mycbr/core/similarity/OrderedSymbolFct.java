@@ -197,7 +197,7 @@ public class OrderedSymbolFct extends SymbolFct implements Observer {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (o.equals(desc)) {
+		} else if (o.equals(subDesc)) {
 			if (arg1 instanceof Pair<?,?>) {
 				Pair<SymbolAttribute,Integer> removedAtt = (Pair<SymbolAttribute,Integer>)arg1;
 				removeSymbol(removedAtt.getFirst());
@@ -369,4 +369,17 @@ public class OrderedSymbolFct extends SymbolFct implements Observer {
 	public int getDistanceLastFirst() {
 		return distanceLastFirst;
 	}
+
+    @Override
+    public HashMap<String, Object> getRepresentation() {
+        HashMap<String,Object> ret = super.getRepresentation();
+        ret.put("type",this.getClass().getName());
+        ret.put("order",this.order);
+        ret.put("internalFunction",this.internalFunction.getRepresentation());
+        ret.put("internalDesc",this.internalDesc);
+        ret.put("highestOrder",this.highestOrder);
+        ret.put("minOrder",this.minOrder);
+        ret.put("distanceLastFirst",this.distanceLastFirst);
+        return ret;
+    }
 }
