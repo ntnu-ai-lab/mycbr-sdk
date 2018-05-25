@@ -36,6 +36,8 @@ import de.dfki.mycbr.core.similarity.ISimFct;
 import de.dfki.mycbr.core.similarity.IntervalFct;
 import de.dfki.mycbr.util.Pair;
 
+import java.util.HashMap;
+
 /**
  * The allow computation of similarity between intervals there must be a minimal
  * and a maximal value that restrict the possible interval bounds.
@@ -269,5 +271,12 @@ public class IntervalDesc extends SimpleAttDesc {
             ISimFct activeSim = addIntervalFct(Project.DEFAULT_FCT_NAME, false);
             updateAmalgamationFcts(owner, activeSim);
         }
+    }
+    @Override
+    public HashMap<String, Object> getRepresentation() {
+        HashMap<String,Object> ret = super.getRepresentation();
+        ret.put("min",this.min);
+        ret.put("max",this.max);
+        return ret;
     }
 }

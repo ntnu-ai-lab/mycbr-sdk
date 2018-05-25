@@ -28,6 +28,7 @@ package de.dfki.mycbr.core.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import de.dfki.mycbr.core.Project;
 import de.dfki.mycbr.core.casebase.Attribute;
@@ -270,5 +271,13 @@ public class DateDesc extends SimpleAttDesc {
 			ISimFct activeSim = addDateFct(Project.DEFAULT_FCT_NAME, false, DateFct.DateFunctionPrecision.Day);
 			updateAmalgamationFcts(owner, activeSim);
 		}
+	}
+	@Override
+	public HashMap<String, Object> getRepresentation() {
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("minDate",this.minDate);
+		ret.put("maxDate",this.maxDate);
+		ret.put("format",this.format);
+		return ret;
 	}
 }

@@ -26,6 +26,7 @@
 
 package de.dfki.mycbr.core.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -180,4 +181,14 @@ public abstract class SimpleAttDesc extends AttributeDesc {
 			notifyObservers();
 		}
 	}
+    @Override
+    public HashMap<String, Object> getRepresentation() {
+        HashMap<String,Object> ret = super.getRepresentation();
+        HashMap<String,HashMap<String,Object>> simFctsRet = new HashMap<>();
+        for(String key : this.simFcts.keySet()){
+            simFctsRet.put(key,this.simFcts.get(key).getRepresentation());
+        }
+        ret.put("simFct",simFctsRet);
+        return ret;
+    }
 }

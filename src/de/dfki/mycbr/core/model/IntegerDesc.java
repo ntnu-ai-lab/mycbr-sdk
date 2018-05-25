@@ -36,6 +36,8 @@ import de.dfki.mycbr.core.similarity.AdvancedIntegerFct;
 import de.dfki.mycbr.core.similarity.ISimFct;
 import de.dfki.mycbr.core.similarity.IntegerFct;
 
+import java.util.HashMap;
+
 /**
  * Description for Integer attributes. Restricts the values that can be used as
  * attributes of this description by minValue and maxValue
@@ -248,5 +250,12 @@ public class IntegerDesc extends SimpleAttDesc {
 	void addDefaultFct() {
 		ISimFct activeSim = addIntegerFct(Project.DEFAULT_FCT_NAME, false);
 		updateAmalgamationFcts(owner, activeSim);
+	}
+	@Override
+	public HashMap<String, Object> getRepresentation() {
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("min",this.min);
+		ret.put("max",this.max);
+		return ret;
 	}
 }

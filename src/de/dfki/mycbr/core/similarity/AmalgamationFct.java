@@ -26,12 +26,7 @@
 
 package de.dfki.mycbr.core.similarity;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import de.dfki.mycbr.core.Project;
 import de.dfki.mycbr.core.casebase.Attribute;
@@ -43,6 +38,7 @@ import de.dfki.mycbr.core.model.Concept;
 import de.dfki.mycbr.core.model.ConceptDesc;
 import de.dfki.mycbr.core.model.SimpleAttDesc;
 import de.dfki.mycbr.core.similarity.config.AmalgamationConfig;
+import org.nd4j.linalg.api.ndarray.INDArray;
 
 /**
  * This function is used to compute similarity of to ConceptAttribute objects.
@@ -90,6 +86,11 @@ public class AmalgamationFct extends Observable implements Observer {
 	private HashMap<String, Number> weights;
 
 	/**
+	 * The neuralnetwork model, if the amalgamation function is of a type that uses one such model.
+	 */
+	private NeuralAmalgamationSingleton neuralAmalgamationSingleton;
+
+	/**
 	 * Initializes this with the given type, description, weights and
 	 * inheritance similarity. Accessible from inside this package because only
 	 * the FunctionContainer instance should create AmalgamationFct objects.
@@ -97,14 +98,13 @@ public class AmalgamationFct extends Observable implements Observer {
 	 * @param type
 	 *            the amalgamation type (e.g. minimum, maximum, euclidean or
 	 *            weighted sum)
-	 * @param desc
-	 *            the description of the c to which this function can be
+	 * @param c
+	 *            the description of the concept to which this function can be
 	 *            applied.
 	 * @param weights
 	 *            the weights of c's attributes
-	 * @param inheritanceSimilarity
-	 *            similarity of the concepts appearing as descendants of this c
-	 *            in the inheritance hierarchy.
+	 * @param name
+	 *            name of this amalgamation function
 	 */
 	AmalgamationFct(AmalgamationConfig type, Concept c,
 			HashMap<String, Number> weights, String name) {
@@ -184,6 +184,11 @@ public class AmalgamationFct extends Observable implements Observer {
 
 			}
 		}
+		// Initialize this on load the function rather than during retrieval
+		if(type==AmalgamationConfig.NEURAL_NETWORK_SOLUTION_DIRECTLY) {
+			String modelPath = System.getProperty("NeuralRetrievalModelFilePath");
+			neuralAmalgamationSingleton = NeuralAmalgamationSingleton.getInstance(modelPath);
+		}
 	}
 
 	/**
@@ -219,6 +224,20 @@ public class AmalgamationFct extends Observable implements Observer {
 
 			HashMap<AttributeDesc, Similarity> sims = new HashMap<AttributeDesc, Similarity>();
 			double normalize = 0.0;
+			//this type of amalgamation function does not need to iterate through all attributes.
+			if(type == AmalgamationConfig.NEURAL_NETWORK_SOLUTION_DIRECTLY){
+
+				INDArray input1 = neuralAmalgamationSingleton.getArray(instance1);
+				INDArray input2 = neuralAmalgamationSingleton.getArray(instance2);
+
+				INDArray output1 = neuralAmalgamationSingleton.getOutput(input1);
+				INDArray output2 = neuralAmalgamationSingleton.getOutput(input2);
+				double ret1 = output1.getDouble(0);
+				double ret2 = output2.getDouble(0);
+
+				return Similarity.get(1.0-Math.abs(ret1-ret2));
+			}
+
 			// This only compares concepts based on common
 			// attributes.
 			for (AttributeDesc attDesc : concept.getAllAttributeDescs()
@@ -315,6 +334,10 @@ public class AmalgamationFct extends Observable implements Observer {
 				if (tmp != 0.0 && normalize != 0.0)
 					tmp = tmp / normalize;
 				result = tmp;
+				break;
+			case NEURAL_NETWORK_SOLUTION_DIRECTLY:
+
+
 				break;
 			default:
 				throw new Exception("AmalgamationConfig value unknown:" + type);

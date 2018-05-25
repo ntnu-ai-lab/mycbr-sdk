@@ -36,6 +36,8 @@ import de.dfki.mycbr.core.similarity.AdvancedFloatFct;
 import de.dfki.mycbr.core.similarity.FloatFct;
 import de.dfki.mycbr.core.similarity.ISimFct;
 
+import java.util.HashMap;
+
 /**
  * Description for Number attributes. Restricts the values that can be used as
  * attributes of this description by minValue and maxValue
@@ -254,5 +256,13 @@ public class FloatDesc extends SimpleAttDesc {
 	void addDefaultFct() {
 		ISimFct activeSim = addFloatFct(Project.DEFAULT_FCT_NAME, false);
 		updateAmalgamationFcts(owner, activeSim);
+	}
+	@Override
+	public HashMap<String, Object> getRepresentation() {
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("min",this.min);
+		ret.put("max",this.max);
+
+		return ret;
 	}
 }

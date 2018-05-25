@@ -36,6 +36,8 @@ import de.dfki.mycbr.core.similarity.AdvancedDoubleFct;
 import de.dfki.mycbr.core.similarity.DoubleFct;
 import de.dfki.mycbr.core.similarity.ISimFct;
 
+import java.util.HashMap;
+
 /**
  * Description for Number attributes. Restricts the values that can be used as
  * attributes of this description by minValue and maxValue
@@ -254,5 +256,13 @@ public class DoubleDesc extends SimpleAttDesc {
 	void addDefaultFct() {
 		ISimFct activeSim = addDoubleFct(Project.DEFAULT_FCT_NAME, false);
 		updateAmalgamationFcts(owner, activeSim);
+	}
+
+	@Override
+	public HashMap<String, Object> getRepresentation() {
+		HashMap<String,Object> ret = super.getRepresentation();
+		ret.put("min",this.min);
+		ret.put("max",this.max);
+		return ret;
 	}
 }

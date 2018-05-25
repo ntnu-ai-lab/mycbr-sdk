@@ -27,6 +27,7 @@
 package de.dfki.mycbr.core.model;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -210,7 +211,7 @@ public abstract class AttributeDesc extends Observable implements Observer, IExp
 
 	
 	/**
-	 * @param owner
+	 * @param c
 	 * @param activeSim
 	 */
 	protected void updateAmalgamationFcts(Concept c, Object activeSim) {
@@ -335,5 +336,14 @@ public abstract class AttributeDesc extends Observable implements Observer, IExp
 	@Override
 	public Explainable getExpType() {
 		return Explainable.AttributeDesc;
+	}
+
+	public HashMap<String, Object> getRepresentation() {
+		HashMap<String,Object> ret = new HashMap<>();
+		ret.put("name",this.getName());
+		ret.put("type",this.getClass().getName());
+		ret.put("owner",this.owner.getName());
+		ret.put("isMultiple",this.isMultiple);
+		return ret;
 	}
 }
