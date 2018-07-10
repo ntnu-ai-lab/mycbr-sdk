@@ -33,18 +33,18 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.model.BooleanDesc;
-import de.dfki.mycbr.core.model.Concept;
-import de.dfki.mycbr.core.model.DateDesc;
-import de.dfki.mycbr.core.model.DoubleDesc;
-import de.dfki.mycbr.core.model.FloatDesc;
-import de.dfki.mycbr.core.model.IntegerDesc;
-import de.dfki.mycbr.core.model.IntervalDesc;
-import de.dfki.mycbr.core.model.StringDesc;
-import de.dfki.mycbr.core.model.SymbolDesc;
-import de.dfki.mycbr.core.similarity.AmalgamationFct;
-import de.dfki.mycbr.core.similarity.config.AmalgamationConfig;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.model.BooleanDesc;
+import no.ntnu.mycbr.core.model.Concept;
+import no.ntnu.mycbr.core.model.DateDesc;
+import no.ntnu.mycbr.core.model.DoubleDesc;
+import no.ntnu.mycbr.core.model.FloatDesc;
+import no.ntnu.mycbr.core.model.IntegerDesc;
+import no.ntnu.mycbr.core.model.IntervalDesc;
+import no.ntnu.mycbr.core.model.StringDesc;
+import no.ntnu.mycbr.core.model.SymbolDesc;
+import no.ntnu.mycbr.core.similarity.AmalgamationFct;
+import no.ntnu.mycbr.core.similarity.config.AmalgamationConfig;
 
 /**
  * @author myCBR Team

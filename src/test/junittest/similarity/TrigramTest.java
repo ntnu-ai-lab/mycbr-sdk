@@ -29,23 +29,23 @@ package test.junittest.similarity;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import de.dfki.mycbr.util.Pair;
+import no.ntnu.mycbr.util.Pair;
 import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import de.dfki.mycbr.core.DefaultCaseBase;
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.casebase.Instance;
-import de.dfki.mycbr.core.model.Concept;
-import de.dfki.mycbr.core.model.FloatDesc;
-import de.dfki.mycbr.core.model.IntegerDesc;
-import de.dfki.mycbr.core.model.StringDesc;
-import de.dfki.mycbr.core.model.SymbolDesc;
-import de.dfki.mycbr.core.retrieval.Retrieval;
-import de.dfki.mycbr.core.retrieval.Retrieval.RetrievalMethod;
-import de.dfki.mycbr.core.similarity.AmalgamationFct;
-import de.dfki.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.DefaultCaseBase;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.casebase.Instance;
+import no.ntnu.mycbr.core.model.Concept;
+import no.ntnu.mycbr.core.model.FloatDesc;
+import no.ntnu.mycbr.core.model.IntegerDesc;
+import no.ntnu.mycbr.core.model.StringDesc;
+import no.ntnu.mycbr.core.model.SymbolDesc;
+import no.ntnu.mycbr.core.retrieval.Retrieval;
+import no.ntnu.mycbr.core.retrieval.Retrieval.RetrievalMethod;
+import no.ntnu.mycbr.core.similarity.AmalgamationFct;
+import no.ntnu.mycbr.core.similarity.Similarity;
 
 /**
  * Test the trigram similarity by importing the myCBR project trigramTest.

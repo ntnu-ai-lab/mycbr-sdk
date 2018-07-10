@@ -25,9 +25,9 @@
  * endOfLic */
 
 package test.junittest.model;
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.model.Concept;
-import de.dfki.mycbr.core.model.StringDesc;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.model.Concept;
+import no.ntnu.mycbr.core.model.StringDesc;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;

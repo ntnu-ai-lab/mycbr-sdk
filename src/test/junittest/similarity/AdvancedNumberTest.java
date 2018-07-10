@@ -30,8 +30,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import de.dfki.mycbr.core.similarity.AdvancedIntegerFct;
-import de.dfki.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.similarity.AdvancedIntegerFct;
+import no.ntnu.mycbr.core.similarity.Similarity;
 import test.junittest.TestFramework;
 
 /**

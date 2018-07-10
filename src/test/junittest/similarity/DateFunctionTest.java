@@ -26,10 +26,10 @@
 
 package test.junittest.similarity;
 
-import de.dfki.mycbr.core.casebase.DateAttribute;
-import de.dfki.mycbr.core.model.DateDesc;
-import de.dfki.mycbr.core.similarity.DateFct;
-import de.dfki.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.casebase.DateAttribute;
+import no.ntnu.mycbr.core.model.DateDesc;
+import no.ntnu.mycbr.core.similarity.DateFct;
+import no.ntnu.mycbr.core.similarity.Similarity;
 import junit.framework.TestCase;
 import org.junit.Test;
 import test.junittest.TestFramework;

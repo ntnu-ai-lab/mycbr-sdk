@@ -28,12 +28,13 @@ package test.junittest.similarity;
 
 import junit.framework.TestCase;
 
+import no.ntnu.mycbr.core.similarity.SymbolFct;
 import org.junit.Test;
 
-import de.dfki.mycbr.core.similarity.IntegerFct;
-import de.dfki.mycbr.core.similarity.OrderedSymbolFct;
-import de.dfki.mycbr.core.similarity.Similarity;
-import de.dfki.mycbr.core.similarity.config.NumberConfig;
+import no.ntnu.mycbr.core.similarity.IntegerFct;
+import no.ntnu.mycbr.core.similarity.OrderedSymbolFct;
+import no.ntnu.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.similarity.config.NumberConfig;
 import test.junittest.TestFramework;
 
 /**
@@ -43,7 +44,7 @@ import test.junittest.TestFramework;
 public class OrderedSymbolTest extends TestCase {
 	
 	/**
-	 * Test method for {@link de.dfki.mycbr.core.similarity.SymbolFct#calculateSimilarity(Attribute, Attribute)}.
+	 * Test method for {@link SymbolFct#calculateSimilarity(Attribute, Attribute)}.
 	 */
 	@Test
 	public void testCalculateSimilarity() {

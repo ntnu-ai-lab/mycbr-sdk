@@ -30,10 +30,10 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import de.dfki.mycbr.core.casebase.SymbolAttribute;
-import de.dfki.mycbr.core.similarity.Similarity;
-import de.dfki.mycbr.core.similarity.TaxonomyFct;
-import de.dfki.mycbr.core.similarity.config.TaxonomyConfig;
+import no.ntnu.mycbr.core.casebase.SymbolAttribute;
+import no.ntnu.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.similarity.TaxonomyFct;
+import no.ntnu.mycbr.core.similarity.config.TaxonomyConfig;
 import test.junittest.TestFramework;
 
 /**

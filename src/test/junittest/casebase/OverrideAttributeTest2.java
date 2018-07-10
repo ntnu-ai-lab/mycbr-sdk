@@ -31,15 +31,15 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 
 import junit.framework.TestCase;
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.model.BooleanDesc;
-import de.dfki.mycbr.core.model.Concept;
-import de.dfki.mycbr.core.model.ConceptDesc;
-import de.dfki.mycbr.core.model.DateDesc;
-import de.dfki.mycbr.core.model.IntegerDesc;
-import de.dfki.mycbr.core.model.IntervalDesc;
-import de.dfki.mycbr.core.model.StringDesc;
-import de.dfki.mycbr.core.model.SymbolDesc;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.model.BooleanDesc;
+import no.ntnu.mycbr.core.model.Concept;
+import no.ntnu.mycbr.core.model.ConceptDesc;
+import no.ntnu.mycbr.core.model.DateDesc;
+import no.ntnu.mycbr.core.model.IntegerDesc;
+import no.ntnu.mycbr.core.model.IntervalDesc;
+import no.ntnu.mycbr.core.model.StringDesc;
+import no.ntnu.mycbr.core.model.SymbolDesc;
 
 /**
  * Similar to OverrideAttributeTest but from the opposite point of view.

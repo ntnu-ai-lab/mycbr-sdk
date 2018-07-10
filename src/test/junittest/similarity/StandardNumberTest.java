@@ -28,11 +28,12 @@ package test.junittest.similarity;
 
 import junit.framework.TestCase;
 
+import no.ntnu.mycbr.core.similarity.NumberFct;
 import org.junit.Test;
 
-import de.dfki.mycbr.core.similarity.IntegerFct;
-import de.dfki.mycbr.core.similarity.Similarity;
-import de.dfki.mycbr.core.similarity.config.NumberConfig;
+import no.ntnu.mycbr.core.similarity.IntegerFct;
+import no.ntnu.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.similarity.config.NumberConfig;
 import test.junittest.TestFramework;
 
 /**
@@ -42,7 +43,7 @@ import test.junittest.TestFramework;
 public class StandardNumberTest extends TestCase {
 
 	/**
-	 * Test method for {@link de.dfki.mycbr.core.similarity.NumberFct#calculateSimilarity(Attribute, Attribute)}.
+	 * Test method for {@link NumberFct#calculateSimilarity(Attribute, Attribute)}.
 	 */
 	@Test
 	public void testCalculateSimilarityAttributeAttribute() {

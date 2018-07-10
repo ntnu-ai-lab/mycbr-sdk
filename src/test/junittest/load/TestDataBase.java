@@ -29,11 +29,11 @@ package test.junittest.load;
 
 import java.util.LinkedList;
 
-import de.dfki.mycbr.core.DefaultCaseBase;
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.casebase.Instance;
-import de.dfki.mycbr.core.model.Concept;
-import de.dfki.mycbr.io.DataBaseImporter;
+import no.ntnu.mycbr.core.DefaultCaseBase;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.casebase.Instance;
+import no.ntnu.mycbr.core.model.Concept;
+import no.ntnu.mycbr.io.DataBaseImporter;
 /**
  * tests the import functionality from a PGSQL data base in myCBR v3.0
  * 

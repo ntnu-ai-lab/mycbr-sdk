@@ -30,8 +30,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import de.dfki.mycbr.core.similarity.Similarity;
-import de.dfki.mycbr.core.similarity.SymbolFct;
+import no.ntnu.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.similarity.SymbolFct;
 import test.junittest.TestFramework;
 
 /**
@@ -41,7 +41,7 @@ import test.junittest.TestFramework;
 public class SymbolFunctionTest extends TestCase {
 
 	/**
-	 * Test method for {@link de.dfki.mycbr.core.similarity.SymbolFct#calculateSimilarity(Attribute, Attribute)}.
+	 * Test method for {@link SymbolFct#calculateSimilarity(Attribute, Attribute)}.
 	 */
 	@Test
 	public void testCalculateSimilarity() {

@@ -27,8 +27,8 @@
 package test.junittest.model;
 
 import junit.framework.TestCase;
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.model.Concept;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.model.Concept;
 
 /**
  * @author myCBR Team

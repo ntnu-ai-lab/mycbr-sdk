@@ -30,8 +30,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import de.dfki.mycbr.core.similarity.StringFct;
-import de.dfki.mycbr.core.similarity.config.StringConfig;
+import no.ntnu.mycbr.core.similarity.StringFct;
+import no.ntnu.mycbr.core.similarity.config.StringConfig;
 import test.junittest.TestFramework;
 
 /**
@@ -61,7 +61,7 @@ public class StringFunctionTest extends TestCase {
 	}
 	
 	/**
-	 * Test method for {@link de.dfki.mycbr.core.similarity.StringFct calculateSimilarity(Attribute, Attribute)}.
+	 * Test method for {@link StringFct calculateSimilarity(Attribute, Attribute)}.
 	 */
 	@Test
 	public void testCalculateSimilarityEQUALITY() {
@@ -81,7 +81,7 @@ public class StringFunctionTest extends TestCase {
 	}
 
     /**
-     * Test method for {@link de.dfki.mycbr.core.similarity.StringFct calculateSimilarity(Attribute, Attribute)}.
+     * Test method for {@link StringFct calculateSimilarity(Attribute, Attribute)}.
      */
     @Test
     public void testCalculateSimilarityNGRAM() {
@@ -104,7 +104,7 @@ public class StringFunctionTest extends TestCase {
     }
     
     /**
-     * Test method for {@link de.dfki.mycbr.core.similarity.StringFct calculateSimilarity(Attribute, Attribute)}.
+     * Test method for {@link StringFct calculateSimilarity(Attribute, Attribute)}.
      */
     @Test
     public void testCalculateSimilarityLEVENSHTEIN() {

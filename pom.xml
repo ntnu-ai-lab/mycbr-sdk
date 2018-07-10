@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>myCBR3</groupId>
-  <artifactId>myCBR3</artifactId>
+  <groupId>myCBR</groupId>
+  <artifactId>myCBR</artifactId>
   <version>3.3-SNAPSHOT</version>
   <properties>
     <nd4j.version>1.0.0-alpha</nd4j.version>

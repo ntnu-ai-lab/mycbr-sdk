@@ -26,7 +26,7 @@
 
 package test.junittest;
 
-import de.dfki.mycbr.core.Project;
+import no.ntnu.mycbr.core.Project;
 import org.junit.After;
 import org.junit.Test;
 

@@ -30,14 +30,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import junit.framework.TestCase;
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.casebase.Instance;
-import de.dfki.mycbr.core.model.Concept;
-import de.dfki.mycbr.core.model.ConceptDesc;
-import de.dfki.mycbr.core.model.SymbolDesc;
-import de.dfki.mycbr.core.similarity.AmalgamationFct;
-import de.dfki.mycbr.core.similarity.SymbolFct;
-import de.dfki.mycbr.core.similarity.config.AmalgamationConfig;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.casebase.Instance;
+import no.ntnu.mycbr.core.model.Concept;
+import no.ntnu.mycbr.core.model.ConceptDesc;
+import no.ntnu.mycbr.core.model.SymbolDesc;
+import no.ntnu.mycbr.core.similarity.AmalgamationFct;
+import no.ntnu.mycbr.core.similarity.SymbolFct;
+import no.ntnu.mycbr.core.similarity.config.AmalgamationConfig;
 
 /**
  * tests functionality for a c having 2 attributes of

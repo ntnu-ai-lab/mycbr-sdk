@@ -4,11 +4,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
 <%@ page import="java.util.*" %>
-<%@ page import="de.dfki.mycbr.*" %>
-<%@ page import="de.dfki.mycbr.retrieval.*" %>
-<%@ page import="de.dfki.mycbr.model.vocabulary.*" %>
-<%@ page import="de.dfki.mycbr.model.casebase.*" %>
-<%@ page import="de.dfki.mycbr.modelprovider.*" %>
+<%@ page import="no.ntnu.mycbr.*" %>
+<%@ page import="no.ntnu.mycbr.retrieval.*" %>
+<%@ page import="no.ntnu.mycbr.model.vocabulary.*" %>
+<%@ page import="no.ntnu.mycbr.model.casebase.*" %>
+<%@ page import="no.ntnu.mycbr.modelprovider.*" %>
 
 <head>
 <title>myCBR</title>

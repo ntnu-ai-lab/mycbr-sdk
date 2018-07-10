@@ -29,22 +29,22 @@ package test.junittest;
 import java.util.LinkedList;
 
 import junit.framework.TestCase;
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.casebase.Attribute;
-import de.dfki.mycbr.core.casebase.Instance;
-import de.dfki.mycbr.core.casebase.MultipleAttribute;
-import de.dfki.mycbr.core.model.BooleanDesc;
-import de.dfki.mycbr.core.model.Concept;
-import de.dfki.mycbr.core.model.ConceptDesc;
-import de.dfki.mycbr.core.model.SymbolDesc;
-import de.dfki.mycbr.core.similarity.AmalgamationFct;
-import de.dfki.mycbr.core.similarity.ISimFct;
-import de.dfki.mycbr.core.similarity.Similarity;
-import de.dfki.mycbr.core.similarity.config.AmalgamationConfig;
-import de.dfki.mycbr.core.similarity.config.MultipleConfig;
-import de.dfki.mycbr.core.similarity.config.MultipleConfig.MainType;
-import de.dfki.mycbr.core.similarity.config.MultipleConfig.Reuse;
-import de.dfki.mycbr.core.similarity.config.MultipleConfig.Type;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.casebase.Attribute;
+import no.ntnu.mycbr.core.casebase.Instance;
+import no.ntnu.mycbr.core.casebase.MultipleAttribute;
+import no.ntnu.mycbr.core.model.BooleanDesc;
+import no.ntnu.mycbr.core.model.Concept;
+import no.ntnu.mycbr.core.model.ConceptDesc;
+import no.ntnu.mycbr.core.model.SymbolDesc;
+import no.ntnu.mycbr.core.similarity.AmalgamationFct;
+import no.ntnu.mycbr.core.similarity.ISimFct;
+import no.ntnu.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.similarity.config.AmalgamationConfig;
+import no.ntnu.mycbr.core.similarity.config.MultipleConfig;
+import no.ntnu.mycbr.core.similarity.config.MultipleConfig.MainType;
+import no.ntnu.mycbr.core.similarity.config.MultipleConfig.Reuse;
+import no.ntnu.mycbr.core.similarity.config.MultipleConfig.Type;
 
 /**
  * Tests the similarity measure on attributes with multiple values.

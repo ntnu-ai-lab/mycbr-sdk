@@ -30,19 +30,19 @@ package test.junittest;
 
 import java.util.HashSet;
 
-import de.dfki.mycbr.core.DefaultCaseBase;
-import de.dfki.mycbr.core.Project;
-import de.dfki.mycbr.core.casebase.Instance;
-import de.dfki.mycbr.core.casebase.SymbolAttribute;
-import de.dfki.mycbr.core.model.Concept;
-import de.dfki.mycbr.core.model.IntegerDesc;
-import de.dfki.mycbr.core.model.SymbolDesc;
-import de.dfki.mycbr.core.similarity.AmalgamationFct;
-import de.dfki.mycbr.core.similarity.IntegerFct;
-import de.dfki.mycbr.core.similarity.Similarity;
-import de.dfki.mycbr.core.similarity.TaxonomyFct;
-import de.dfki.mycbr.core.similarity.config.AmalgamationConfig;
-import de.dfki.mycbr.core.similarity.config.TaxonomyConfig;
+import no.ntnu.mycbr.core.DefaultCaseBase;
+import no.ntnu.mycbr.core.Project;
+import no.ntnu.mycbr.core.casebase.Instance;
+import no.ntnu.mycbr.core.casebase.SymbolAttribute;
+import no.ntnu.mycbr.core.model.Concept;
+import no.ntnu.mycbr.core.model.IntegerDesc;
+import no.ntnu.mycbr.core.model.SymbolDesc;
+import no.ntnu.mycbr.core.similarity.AmalgamationFct;
+import no.ntnu.mycbr.core.similarity.IntegerFct;
+import no.ntnu.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.core.similarity.TaxonomyFct;
+import no.ntnu.mycbr.core.similarity.config.AmalgamationConfig;
+import no.ntnu.mycbr.core.similarity.config.TaxonomyConfig;
 
 /**
  * @author myCBR Team
