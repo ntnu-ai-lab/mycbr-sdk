@@ -29,7 +29,7 @@ package no.ntnu.mycbr.core.similarity;
 import java.util.*;
 
 import no.ntnu.mycbr.core.Project;
-import de.dfki.mycbr.core.casebase.*;
+import no.ntnu.mycbr.core.casebase.*;
 import no.ntnu.mycbr.core.casebase.Attribute;
 import no.ntnu.mycbr.core.casebase.DateAttribute;
 import no.ntnu.mycbr.core.casebase.MultipleAttribute;
