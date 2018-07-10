@@ -38,7 +38,6 @@ import java.util.Observable;
  *
  */
 public abstract class Attribute extends Observable {
-
     /**
      * Returns a string representation of this attribute's value. Mostly used
      * for saving cases to internal XML file.
@@ -46,5 +45,6 @@ public abstract class Attribute extends Observable {
      * @return the value of this attribute as string
      */
     public abstract String getValueAsString();
+
 
 }

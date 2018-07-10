@@ -60,13 +60,14 @@ import no.ntnu.mycbr.core.similarity.AmalgamationFct;
 public abstract class AttributeDesc extends Observable implements Observer, IExplainable {
 	
 	protected static final String DELETE_NOTIFICATION = "deleted";
-	
 	/**
 	 * Used to identify the attribute within the
 	 * local attributes of owner. 
 	 */
 	protected String name;
-	
+
+	protected Boolean isSolution;
+
 	/**
 	 * The Concept that has this attribute
 	 * as a description 
@@ -95,6 +96,7 @@ public abstract class AttributeDesc extends Observable implements Observer, IExp
 		this.owner = owner;
 		addObserver(owner);
 		this.name = name;
+		this.setIsSolution(new Boolean(false));
 	}
 	
 	/**
@@ -336,6 +338,12 @@ public abstract class AttributeDesc extends Observable implements Observer, IExp
 	@Override
 	public Explainable getExpType() {
 		return Explainable.AttributeDesc;
+	}
+
+	public Boolean isSolution(){return this.isSolution;}
+
+	public void setIsSolution(Boolean isSolution){
+		this.isSolution = isSolution;
 	}
 
 	public HashMap<String, Object> getRepresentation() {

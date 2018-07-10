@@ -11,12 +11,17 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.factory.Nd4j;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class NeuralAmalgamationSingleton {
     private MultiLayerNetwork mln;
+    private final Log logger = LogFactory.getLog(getClass());
     private NeuralAmalgamationSingleton(String modelpath){
 
         //String configFile = "/home/epic/research/dataGetters/operationalmodel_1.0_cat_cross.json";
@@ -27,10 +32,13 @@ public class NeuralAmalgamationSingleton {
         try {
             mln = KerasModelImport.importKerasSequentialModelAndWeights(configFile, weightsFile);
         } catch (InvalidKerasConfigurationException e){
+            logger.error("got invalid keras exception for config file"+configFile,e);
             System.out.println("invalidkerasconf");
         } catch (UnsupportedKerasConfigurationException e){
+            logger.error("got unsupported keras exception for config file"+configFile,e);
             System.out.println("unsupportedkerasconf");
         } catch (IOException e ){
+            logger.error("got io error on keras config file"+configFile+ " model file: "+weightsFile,e);
             System.out.println("IOexception file path is "+modelpath);
         }
 
@@ -56,9 +64,15 @@ public class NeuralAmalgamationSingleton {
     }
 
     INDArray getArray(Instance c) {
-        double[][] data = new double[1][c.getConcept().getAllAttributeDescs().values().size()];
+        List<AttributeDesc> problemAttributes = new ArrayList<>();
+        HashMap<String,AttributeDesc> allAttributeDesc = c.getConcept().getAllAttributeDescs();
+        for(AttributeDesc attributeDesc : allAttributeDesc.values()){
+            if(!attributeDesc.isSolution())
+                problemAttributes.add(attributeDesc);
+        }
+        double[][] data = new double[1][problemAttributes.size()];
         int counter = 0;
-        for(AttributeDesc attributeDesc : c.getConcept().getAllAttributeDescs().values()){
+        for(AttributeDesc attributeDesc : problemAttributes){
             Attribute att = c.getAttForDesc(attributeDesc);
             data[0][counter++] = Double.parseDouble(att.getValueAsString());
         }
