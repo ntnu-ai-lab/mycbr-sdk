@@ -20,6 +20,25 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NeuralAmalgamationSingleton {
+    private class MLNRunner implements Runnable {
+        private MultiLayerNetwork mln;
+        private INDArray inp;
+        private INDArray output;
+        public MLNRunner(MultiLayerNetwork mln){
+            this.mln = mln;
+        }
+        public void setInput(INDArray inp){
+            this.inp = inp;
+        }
+        public INDArray getOutput(){
+            return this.output;
+
+        }
+        @Override
+        public void run() {
+            this.output = this.mln.output(this.inp);
+        }
+    }
     private MultiLayerNetwork mln;
     private final Log logger = LogFactory.getLog(getClass());
     private NeuralAmalgamationSingleton(String modelpath){
@@ -111,7 +130,7 @@ public class NeuralAmalgamationSingleton {
         return Similarity.get(output.getDouble(0)-output2.getDouble(0));
     }
     public INDArray getOutput(INDArray a){
-        return mln.output(a);
+        return mln.clone().output(a);
     }
 
 }

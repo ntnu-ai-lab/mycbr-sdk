@@ -38,13 +38,14 @@ import no.ntnu.mycbr.core.similarity.Similarity;
 import no.ntnu.mycbr.util.Pair;
 import junit.framework.TestCase;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author myCBR Team
  * 
  */
-public class UsedCars extends TestCase {
+public class UsedCars extends TestCase implements Retrieval.RetrievalCustomer {
 
 	public void test() {
 //		String projectsPath = "C:\\mycbr\\projects\\Web\\";
@@ -75,7 +76,7 @@ public class UsedCars extends TestCase {
 				"CaseBase0");
 		String caseID = "Car870";
 		
-		Retrieval r = new Retrieval(modelClass, cb);
+		Retrieval r = new Retrieval(modelClass, cb,this);
 		r.setRetrievalMethod(RetrievalMethod.RETRIEVE_SORTED);
 		Instance query = r.getQueryInstance();
 
@@ -93,12 +94,17 @@ public class UsedCars extends TestCase {
 		@SuppressWarnings("unchecked")
 		Pair<Instance, Similarity>[] result = new Pair[r.size()];
     	int index = 0;
-    	for(Pair<Instance,Similarity> e: r.getResult()) {
+    	for(Pair<Instance,Similarity> e: this.results) {
     		result[index++] = e; //new Pair<Instance, Similarity>(e.getKey(), e.getValue());
     	}
 		for ( int i = 0; i < 957; i++ ) {
 			System.out.println(result[i].getFirst().getName() + " " + result[i].getSecond().getRoundedValue());
 
 		}
+	}
+	List<Pair<Instance,Similarity>> results;
+	@Override
+	public void addResults(Retrieval ret, List<Pair<Instance, Similarity>> results) {
+		this.results = results;
 	}
 }

@@ -9,6 +9,7 @@
     <datavec.version>1.0.0-alpha</datavec.version>
     <arbiter.version>1.0.0-alpha</arbiter.version>
     <rl4j.version>1.0.0-alpha</rl4j.version>
+    <!-- <nd4j.backend>nd4j-cuda-8.0-platform</nd4j.backend> -->
     <nd4j.backend>nd4j-native-platform</nd4j.backend>
 
   </properties>

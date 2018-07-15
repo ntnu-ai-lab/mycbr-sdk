@@ -58,7 +58,7 @@ import no.ntnu.mycbr.util.Pair;
  * @author myCBR Team
  * 
  */
-public class RetrievalTest extends TestCase {
+public class RetrievalTest extends TestCase implements Retrieval.RetrievalCustomer {
 
 	private DefaultCaseBase cb;
 	private Project prj;
@@ -170,7 +170,7 @@ public class RetrievalTest extends TestCase {
 					.addAttribute(colorDesc.getName(), colorDesc.getAttribute(
 							"_undefined_"));
 
-			Retrieval r = new Retrieval(car, cb);
+			Retrieval r = new Retrieval(car, cb,this);
 			LinkedList<Double> results;
 
 			i = car.addInstance("query");
@@ -183,7 +183,7 @@ public class RetrievalTest extends TestCase {
 //			q.print();
 			r.setRetrievalMethod(RetrievalMethod.RETRIEVE_SORTED);
 			r.start();
-			List<Pair<Instance, Similarity>> result = r.getResult(); 
+			List<Pair<Instance, Similarity>> result = this.results;
 			results = printResult(result);
 			assertTrue(results + " should be [1.0, 0.8, 0.3, 0.0]",results.equals(Arrays.asList(new Double[] {
 					1.0d, 0.8d, 0.3d, 0.0d })));
@@ -197,7 +197,7 @@ public class RetrievalTest extends TestCase {
 //					.println("\n--------------------------- query ---------------------------------");
 //			q.print();
 			r.start();
-			result = r.getResult(); 
+			result = this.results;
 			results = printResult(result);
 			assertTrue(results.equals(Arrays.asList(new Double[] { 
 					1.0d, 0.8d, 0.3d, 0.0d })));
@@ -210,7 +210,7 @@ public class RetrievalTest extends TestCase {
 //					.println("\n--------------------------- query ---------------------------------");
 //			q.print();
 			r.start();
-			result = r.getResult(); 
+			result = this.results;
 			results = printResult(result);
 			assertTrue(results.equals(Arrays.asList(new Double[] { 1.0d, 0.8d,
 					0.5d, 0.0d })));
@@ -224,7 +224,7 @@ public class RetrievalTest extends TestCase {
 //					.println("\n--------------------------- query ---------------------------------");
 //			q.print();
 			r.start();
-			result = r.getResult(); 
+			result = this.results;
 			results = printResult(result);
 			assertTrue(results.equals(Arrays.asList(new Double[] { 1.0d, 0.8d,
 					0.5d, 0.0d })));
@@ -237,7 +237,7 @@ public class RetrievalTest extends TestCase {
 //					.println("\n--------------------------- query ---------------------------------");
 //			q.print();
 			r.start();
-			result = r.getResult(); 
+			result = this.results;
 			results = printResult(result);
 			assertTrue(results.equals(Arrays.asList(new Double[] { 0.6d,
 					0.55d, 0.05d, 0.0d })));
@@ -250,7 +250,7 @@ public class RetrievalTest extends TestCase {
 //					.println("\n--------------------------- query ---------------------------------");
 //			q.print();
 			r.start();
-			result = r.getResult(); 
+			result = this.results;
 			results = printResult(result);
 			assertTrue("Result should be [0.54, 0.49, 0.05, 0.0] but is "
 					+ results, results.equals(Arrays.asList(new Double[] {
@@ -264,7 +264,7 @@ public class RetrievalTest extends TestCase {
 //					.println("\n--------------------------- query ---------------------------------");
 //			q.print();
 			r.start();
-			result = r.getResult(); 
+			result = this.results;
 			results = printResult(result);
 			assertTrue("result should be [0.55,0.5,0.1,0.05] but is " + results, results.equals(Arrays.asList(new Double[] { 
 					0.55d, 0.5d, 0.1d, 0.05d })));
@@ -285,5 +285,10 @@ public class RetrievalTest extends TestCase {
 		}
 		return sims;
 	}
+	List<Pair<Instance,Similarity>> results;
+	@Override
+	public void addResults(Retrieval ret, List<Pair<Instance, Similarity>> results) {
+		this.results = results;
 
+	}
 }

@@ -90,6 +90,8 @@ public class AmalgamationFct extends Observable implements Observer {
 	 */
 	private NeuralAmalgamationSingleton neuralAmalgamationSingleton;
 
+	private HashMap<Instance,INDArray> simCache;
+
 	/**
 	 * Initializes this with the given type, description, weights and
 	 * inheritance similarity. Accessible from inside this package because only
@@ -188,6 +190,14 @@ public class AmalgamationFct extends Observable implements Observer {
 		if(type==AmalgamationConfig.NEURAL_NETWORK_SOLUTION_DIRECTLY) {
 			String modelPath = System.getProperty("NeuralRetrievalModelFilePath");
 			neuralAmalgamationSingleton = NeuralAmalgamationSingleton.getInstance(modelPath);
+
+			simCache = new HashMap<>();
+		}
+	}
+
+	public void cacheNeuralSims(List<Instance> instances){
+		for(Instance i : instances){
+			this.simCache.put(i,neuralAmalgamationSingleton.getOutput(neuralAmalgamationSingleton.getArray(i)));
 		}
 	}
 
@@ -232,10 +242,11 @@ public class AmalgamationFct extends Observable implements Observer {
 
 				INDArray output1 = neuralAmalgamationSingleton.getOutput(input1);
 				INDArray output2 = neuralAmalgamationSingleton.getOutput(input2);
-				double ret1 = output1.getDouble(0);
-				double ret2 = output2.getDouble(0);
+				double dist = output1.distance1(output2);
+				//double ret1 = output1.getDouble(0);
+				//double ret2 = output2.getDouble(0);
 
-				return Similarity.get(1.0-Math.abs(ret1-ret2));
+				return Similarity.get(1.0-dist);
 			}
 
 			// This only compares concepts based on common

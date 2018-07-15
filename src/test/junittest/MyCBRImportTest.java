@@ -47,7 +47,7 @@ import no.ntnu.mycbr.core.similarity.Similarity;
  * @author myCBR Team
  * 
  */
-public class MyCBRImportTest extends TestCase {
+public class MyCBRImportTest extends TestCase implements Retrieval.RetrievalCustomer {
 
 	@Test
 	public void testMyCBRImport1() {
@@ -62,7 +62,7 @@ public class MyCBRImportTest extends TestCase {
 			
 			DefaultCaseBase cb = (DefaultCaseBase)project.getCaseBases().get("CaseBase0");
 
-			Retrieval r = new Retrieval(car, cb);
+			Retrieval r = new Retrieval(car, cb,this);
             r.setRetrievalMethod(RetrievalMethod.RETRIEVE_SORTED);
 			Instance q = r.getQueryInstance();
 			q.addAttribute(manufacturer.getName(), manufacturer.getAttribute("Audi"));
@@ -147,7 +147,7 @@ public class MyCBRImportTest extends TestCase {
 			SymbolDesc color = (SymbolDesc)car.getAttributeDescs().get("Color");
 
 			DefaultCaseBase cb = (DefaultCaseBase)project.getCaseBases().get("CaseBase0");
-			Retrieval r = new Retrieval(car, cb);
+			Retrieval r = new Retrieval(car, cb,this);
 			
 			Instance q = r.getQueryInstance();
 			q.addAttribute(manufacturer.getName(), manufacturer.getAttribute("audi"));
@@ -225,7 +225,7 @@ public class MyCBRImportTest extends TestCase {
 	
 	private LinkedList<Double> printResult(Retrieval result) {
 		LinkedList<Double> sims = new LinkedList<Double>();
-		for (Pair<Instance, Similarity> pair : result.getResult()) {
+		for (Pair<Instance, Similarity> pair : this.results) {
 //			System.out.println("\nSimilarity: " + pair.getSecond() + " to case:");
 //			pair.getFirst();
 			sims.add(pair.getSecond().getRoundedValue());
@@ -241,5 +241,10 @@ public class MyCBRImportTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+	List<Pair<Instance,Similarity>> results;
+	@Override
+	public void addResults(Retrieval ret, List<Pair<Instance, Similarity>> results) {
+		this.results = results;
+
+	}
 }

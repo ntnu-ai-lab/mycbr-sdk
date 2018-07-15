@@ -28,6 +28,7 @@ package no.ntnu.mycbr.core.retrieval;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 
 import no.ntnu.mycbr.core.ICaseBase;
@@ -36,6 +37,8 @@ import no.ntnu.mycbr.core.casebase.Instance;
 import no.ntnu.mycbr.core.model.Concept;
 import no.ntnu.mycbr.core.similarity.Similarity;
 import no.ntnu.mycbr.util.Pair;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A retrieval has a retrieval method and a retrieval engine.
@@ -45,11 +48,12 @@ import no.ntnu.mycbr.util.Pair;
  * @author myCBR Team
  *
  */
-public class Retrieval extends HashMap<Instance, Similarity> implements Runnable {
+public class Retrieval extends HashMap<Instance, Similarity> implements Callable<RetrievalResult> {
 
+    private final Log logger = LogFactory.getLog(getClass());
 
     protected RetrievalMethod retrievalMethod = RetrievalMethod.RETRIEVE;
-    List<Pair<Instance,Similarity>> l = null;
+    //List<Pair<Instance,Similarity>> l = null;
     /**
      *
      */
@@ -73,28 +77,66 @@ public class Retrieval extends HashMap<Instance, Similarity> implements Runnable
     private ICaseBase cb;
     private int k = 5;
 	private boolean finished = true;
+
+    @Override
+    public RetrievalResult call() throws Exception {
+        List<Pair<Instance,Similarity>> l = null;
+        finished = false;
+        logger.info("starting retrieval thread");
+        l = getResults(l);
+        return new RetrievalResult(this.retrievalID,l);
+    }
+
+    public String getRetrievalID() {
+        return retrievalID;
+    }
+
+    public void setRetrievalID(String retrievalID) {
+        this.retrievalID = retrievalID;
+    }
+
+    public interface RetrievalCustomer{
+	    public void addResults(Retrieval ret, List<Pair<Instance,Similarity>> results);
+    }
+    private RetrievalCustomer customer;
     
     /**
      *
      * @param c the query should be an instance of this concept
      */
-    public Retrieval(final Concept c, ICaseBase cb) {
+    public Retrieval(final Concept c, ICaseBase cb, RetrievalCustomer rc) {
         p = c.getProject();
         this.cb = cb;
-	    query = c.getQueryInstance();
+        query = c.getQueryInstance();
         re = new SequentialRetrieval(p, this);
         //re = new NeuralRetrieval(p, this);
+        this.customer = rc;
+    }
+    private String retrievalID = null;
+    /**
+     * The retrieval is based on a case ID
+     * @param c
+     */
+    public Retrieval(final Concept c, ICaseBase cb, RetrievalCustomer rc, String retrievalID) {
+        p = c.getProject();
+        this.cb = cb;
+        query = c.getQueryInstance();
+        re = new SequentialRetrieval(p, this);
+        //re = new NeuralRetrieval(p, this);
+        this.customer = rc;
+        this.retrievalID = retrievalID;
     }
 
     /**
     *
     * @param c the query should be an instance of this concept
     */
-   public Retrieval(final Concept c, ICaseBase cb, RetrievalEngine re) {
+   public Retrieval(final Concept c, ICaseBase cb, RetrievalEngine re, RetrievalCustomer rc) {
        p = c.getProject();
        this.cb = cb;
        query = c.getQueryInstance();
        this.re = re;
+       this.customer = rc;
    }
    
     /**
@@ -189,38 +231,42 @@ public class Retrieval extends HashMap<Instance, Similarity> implements Runnable
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
-	@Override
+	//@Override
 	public void run() {
-
+        List<Pair<Instance,Similarity>> l = null;
 		finished = false;
-    	
-    	try {
-	    	// start new retrieval
-	    	switch(retrievalMethod) {
-	    		case RETRIEVE: 			l = re.retrieve(cb, query); 
-	    								break;
-	    								
-	    		case RETRIEVE_SORTED: 	l = re.retrieveSorted(cb, query);
-	    								break;
-	    								
-	    		case RETRIEVE_K: 		l = re.retrieveK(cb, query, k);
-	    								break;
-	    								
-	    		case RETRIEVE_K_SORTED: l = re.retrieveKSorted(cb, query, k);
-	    								break;
-	    								
-	    		default: 				l = re.retrieve(cb, query);
-	    				 				break;
-	    	}
-
-    	} catch(Exception e) {
-    		System.out.println("Retrieval");
-    		e.printStackTrace();
-    	}
+    	logger.info("starting retrieval in thread run(): ");
+        l = getResults(l);
+        this.customer.addResults(this,l);
+        //logger.info("ending retrieval hashcode: "+this.hashCode());
     	finished = true;
 	}
-    
-	public List<Pair<Instance, Similarity>> getResult() {
-		return l;
-	}
+
+    private List<Pair<Instance, Similarity>> getResults(List<Pair<Instance, Similarity>> l) {
+        try {
+            // start new retrieval
+            switch(retrievalMethod) {
+                case RETRIEVE: 			l = re.retrieve(cb, query);
+                                        break;
+
+                case RETRIEVE_SORTED: 	l = re.retrieveSorted(cb, query);
+                                        break;
+
+                case RETRIEVE_K: 		l = re.retrieveK(cb, query, k);
+                                        break;
+
+                case RETRIEVE_K_SORTED: l = re.retrieveKSorted(cb, query, k);
+                                        break;
+
+                default: 				l = re.retrieve(cb, query);
+                                         break;
+            }
+
+        } catch(Exception e) {
+            //System.out.println("Retrieval");
+            e.printStackTrace();
+        }
+        return l;
+    }
+
 }

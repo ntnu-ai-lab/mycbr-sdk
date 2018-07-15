@@ -28,6 +28,7 @@ package test.junittest.similarity;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import no.ntnu.mycbr.util.Pair;
 import junit.framework.TestCase;
@@ -52,7 +53,7 @@ import no.ntnu.mycbr.core.similarity.Similarity;
  * @author myCBR Team
  *
  */
-public class TrigramTest extends TestCase {
+public class TrigramTest extends TestCase implements Retrieval.RetrievalCustomer {
 
 
 	@Test
@@ -97,7 +98,7 @@ public class TrigramTest extends TestCase {
 			f.setActive(zip,false);
 			
 			DefaultCaseBase cb = (DefaultCaseBase)p.getCaseBases().get("CaseBase0");
-			Retrieval r = new Retrieval(car, cb);
+			Retrieval r = new Retrieval(car, cb,this);
 			
 			Instance q = r.getQueryInstance();
 			Instance c1 = car.addInstance("c1");
@@ -139,12 +140,18 @@ public class TrigramTest extends TestCase {
 	 */
     private LinkedList<Double> printResult(Retrieval result) {
         LinkedList<Double> sims = new LinkedList<Double>();
-        for (Pair<Instance, Similarity> pair : result.getResult()) {
+        for (Pair<Instance, Similarity> pair : results) {
 //			System.out.println("\nSimilarity: " + pair.getSecond() + " to case:");
 //			pair.getFirst();
             sims.add(pair.getSecond().getRoundedValue());
         }
         return sims;
     }
-	
+
+    List<Pair<Instance,Similarity>> results;
+
+	@Override
+	public void addResults(Retrieval ret, List<Pair<Instance, Similarity>> results) {
+		this.results = results;
+	}
 }

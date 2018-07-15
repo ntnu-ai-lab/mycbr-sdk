@@ -31,6 +31,8 @@ import no.ntnu.mycbr.core.Project;
 import no.ntnu.mycbr.core.casebase.Instance;
 import no.ntnu.mycbr.core.model.Concept;
 import no.ntnu.mycbr.core.retrieval.Retrieval;
+import no.ntnu.mycbr.core.similarity.Similarity;
+import no.ntnu.mycbr.util.Pair;
 import org.junit.Test;
 
 import java.io.FileWriter;
@@ -38,11 +40,12 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by kerstin on 3/28/14.
  */
-public class StressTestsRetrieval {
+public class StressTestsRetrieval implements Retrieval.RetrievalCustomer {
 
     // Attributes grow exponentially
     @Test
@@ -84,7 +87,7 @@ public class StressTestsRetrieval {
             DefaultCaseBase cb = (DefaultCaseBase) p.getCaseBases().get("casebase");
 
             // create query
-            Retrieval r = new Retrieval(mainDesc, cb);
+            Retrieval r = new Retrieval(mainDesc, cb,this);
             Instance query = r.getQueryInstance();
             do{
                 // add Case
@@ -113,7 +116,7 @@ public class StressTestsRetrieval {
                 decFormat.format(dur);
                 pw.print(noAtts);
                 pw.print(",");
-                pw.print(r.getResult().size());
+                pw.print(this.results.size());
                 pw.print(",");
                 pw.print(dur);
                 pw.print("\n");
@@ -169,7 +172,7 @@ public class StressTestsRetrieval {
             DefaultCaseBase cb = (DefaultCaseBase) p.getCaseBases().get("casebase");
 
             // create query
-            Retrieval r = new Retrieval(mainDesc, cb);
+            Retrieval r = new Retrieval(mainDesc, cb,this);
             Instance query = r.getQueryInstance();
             do{
                 // add Case
@@ -203,7 +206,7 @@ public class StressTestsRetrieval {
                 decFormat.format(dur);
                 pw.print(noAtts);
                 pw.print(",");
-                pw.print(r.getResult().size());
+                pw.print(this.results.size());
                 pw.print(",");
                 pw.print(dur);
                 pw.print("\n");
@@ -219,5 +222,11 @@ public class StressTestsRetrieval {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    List<Pair<Instance,Similarity>> results;
+    @Override
+    public void addResults(Retrieval ret, List<Pair<Instance, Similarity>> results) {
+        this.results = results;
+
     }
 }
