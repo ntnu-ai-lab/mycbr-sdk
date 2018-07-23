@@ -284,8 +284,6 @@ public final class Project extends Concept {
      */
     public void save() {
         if (projectPath != null && ID != null) {
-            System.out.println("Save project to file " + projectPath + ID
-                    + extension);
             XMLExporter.save(this, projectPath + ID + extension);
         }
     }

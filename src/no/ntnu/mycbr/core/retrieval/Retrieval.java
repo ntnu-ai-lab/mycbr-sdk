@@ -82,7 +82,6 @@ public class Retrieval extends HashMap<Instance, Similarity> implements Callable
     public RetrievalResult call() throws Exception {
         List<Pair<Instance,Similarity>> l = null;
         finished = false;
-        logger.info("starting retrieval thread");
         l = getResults(l);
         return new RetrievalResult(this.retrievalID,l);
     }
