@@ -63,14 +63,25 @@ public class NeuralAmalgamationSingleton {
 
     }
     private static HashMap<String,NeuralAmalgamationSingleton> instances;
+
+    /**
+     *
+     * @param modelpath This is the path to the model files to be loaded into the hashmap of available models to run.
+     *                  Notice this is also the key for the hashmap, so if you want to send in a new model for use, you have to provide
+     *                  a new model path.
+     * @return The neuralamalgamationsingleton that will give you the ability to run ANN for similarity/amalgamation
+     */
     public static NeuralAmalgamationSingleton getInstance(String modelpath){
+        Log staticlogger = LogFactory.getLog(NeuralAmalgamationSingleton.class);
         if(instances==null) {
             instances = new HashMap<>();
         }
         NeuralAmalgamationSingleton singleton = instances.get(modelpath);
-        if(singleton!=null)
+        if(singleton!=null) {
+            staticlogger.info("this model has been loaded before, fetching from hashmap");
             return singleton;
-
+        }
+        staticlogger.info("this model has NOT been loaded before, fetching from FILE");
         singleton = new NeuralAmalgamationSingleton(modelpath);
         instances.put(modelpath, singleton);
         return singleton;
