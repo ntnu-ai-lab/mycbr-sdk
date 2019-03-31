@@ -264,26 +264,33 @@ public class OrderedSymbolFct extends SymbolFct implements Observer {
 	 * @throws Exception 
 	 */
 	public void setOrderIndexOf(SymbolAttribute att, int index) throws Exception {
-		boolean updateHighestOrder = order.get(att).equals(highestOrder);
-		boolean updateMinOrder = order.get(att).equals(minOrder);
-		
 		if (subDesc.isAllowedValue(att.getValue())) {
-			highestOrder = index > highestOrder ? index : highestOrder;
-			minOrder = index < minOrder ? index : minOrder;
-			
+			boolean updateHighestOrder = false;
+			boolean updateMinOrder = false;
+
+//			We need to reavaluate boundaries. On update highestOrder can go both ways, up and down.
+			int newHighestOrder = index;
+			for (Integer rank : order.values()) {
+				if (rank > newHighestOrder) {
+					newHighestOrder = rank;
+				}
+			}
+			int newMinOrder = index;
+			for (Integer rank : order.values()) {
+				if (rank < newMinOrder) {
+					newMinOrder = rank;
+				}
+			}
+
+			if (newHighestOrder != highestOrder) {
+				highestOrder = newHighestOrder;
+				updateHighestOrder = true;
+			}
+			if (newMinOrder != minOrder) {
+				minOrder = newMinOrder;
+				updateMinOrder = true;
+			}
 			order.put(att, index);
-			if (updateHighestOrder) {
-				highestOrder = index;
-				for (Integer i: order.values()) {
-					highestOrder = Math.max(highestOrder, i);
-				}
-			}
-			if (updateMinOrder) {
-				minOrder = index;
-				for (Integer i: order.values()) {
-					minOrder = Math.min(minOrder, i);
-				}
-			}
 			if (updateMinOrder || updateHighestOrder) {
 				changeRange(minOrder, highestOrder, isCyclic, distanceLastFirst);
 			}

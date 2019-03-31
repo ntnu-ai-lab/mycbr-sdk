@@ -234,7 +234,7 @@ public class Retrieval extends HashMap<Instance, Similarity> implements Callable
 	public void run() {
         List<Pair<Instance,Similarity>> l = null;
 		finished = false;
-    	logger.info("starting retrieval in thread run(): ");
+    	logger.debug("starting retrieval in thread run(): ");
         l = getResults(l);
         this.customer.addResults(this,l);
         //logger.info("ending retrieval hashcode: "+this.hashCode());
