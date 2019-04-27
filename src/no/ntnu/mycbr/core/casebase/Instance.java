@@ -33,7 +33,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 import no.ntnu.mycbr.core.Project;
 import no.ntnu.mycbr.core.explanation.Explainable;
 import no.ntnu.mycbr.core.explanation.IExplainable;
