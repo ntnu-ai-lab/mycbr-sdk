@@ -10,6 +10,7 @@
     <datavec.version>1.0.0-alpha</datavec.version>
     <arbiter.version>1.0.0-alpha</arbiter.version>
     <rl4j.version>1.0.0-alpha</rl4j.version>
+    <mavenjar.version>3.1.1</mavenjar.version>
     <!-- <nd4j.backend>nd4j-cuda-8.0-platform</nd4j.backend> -->
     <nd4j.backend>nd4j-native-platform</nd4j.backend>
 
@@ -47,7 +48,7 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
-            <version>3.1.1</version>
+            <version>${mavenjar.version}</version>
             <configuration>
                 <archive>
                     <manifest>
