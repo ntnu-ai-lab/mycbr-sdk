@@ -48,7 +48,7 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
-            <version>${mavenjar.backend}</version>
+            <version>${mavenjar.version}</version>
             <configuration>
                 <archive>
                     <manifest>
