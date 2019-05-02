@@ -253,7 +253,7 @@ public class AmalgamationFct extends Observable implements Observer {
 				INDArray input1 = neuralAmalgamationSingleton.getArray(instance1);
 				INDArray input2 = neuralAmalgamationSingleton.getArray(instance2);
 
-				INDArray output1 = neuralAmalgamationSingleton.getOutput(input1.put(input1.length()-1,input2));
+				INDArray output1 = neuralAmalgamationSingleton.getOutput(input1.add(input2));
 				//double ret1 = output1.getDouble(0);
 				//double ret2 = output2.getDouble(0);
 
