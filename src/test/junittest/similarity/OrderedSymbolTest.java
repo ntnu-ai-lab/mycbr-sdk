@@ -70,9 +70,9 @@ public class OrderedSymbolTest extends TestCase {
 			g.setFunctionParameterR(1.2);
 			
 			s = f.calculateSimilarity("red", "green");
-			assertTrue("sim(red,green) should be 0.88 but is " + s, s.getRoundedValue() == 0.9);
+			assertTrue("sim(red,green) should be 0.92 but is " + s, s.getRoundedValue() == 0.92);
 			s = f.calculateSimilarity("green", "red");
-			assertTrue("sim(green,red) should be 0.88 but is " + s,s.getRoundedValue() == 0.9);
+			assertTrue("sim(green,red) should be 0.92 but is " + s,s.getRoundedValue() == 0.92);
 			s = f.calculateSimilarity("green", "green");
 			assertTrue("sim(green,green) should be 1.0 but is " + s, s.getRoundedValue() == 1.00);
 			s = f.calculateSimilarity("white", "green");
@@ -83,15 +83,15 @@ public class OrderedSymbolTest extends TestCase {
 			g.setFunctionTypeL(NumberConfig.POLYNOMIAL_WITH);
 			g.setFunctionParameterR(0.3);
 			s = f.calculateSimilarity("red", "green");
-			assertTrue("sim(red,green) should be 0.97 but is " + s, s.getRoundedValue() == 0.97);
+			assertTrue("sim(red,green) should be 0.0.96 but is " + s, s.getRoundedValue() == 0.96);
 			s = f.calculateSimilarity("green", "red");
-			assertTrue("sim(green,red) should be 0.97 but is " + s, s.getRoundedValue() == 0.97);
+			assertTrue("sim(green,red) should be 0.96 but is " + s, s.getRoundedValue() == 0.96);
 			s = f.calculateSimilarity("green", "green");
 			assertTrue("sim(green,green) should be 1.0 but is " + s, s.getRoundedValue() == 1.00);
 			s = f.calculateSimilarity("white", "green");
-			assertTrue("sim(white,green) should be 0.94 but is " + s, s.getRoundedValue() == 0.93);
+			assertTrue("sim(white,green) should be 0.92 but is " + s, s.getRoundedValue() == 0.92);
 			s = f.calculateSimilarity("green", "white");
-			assertTrue("sim(green,white) should be 0.94 but is " + s, s.getRoundedValue() == 0.93);
+			assertTrue("sim(green,white) should be 0.92 but is " + s, s.getRoundedValue() == 0.92);
 			
 			g.setFunctionTypeL(NumberConfig.STEP_AT);
 			g.setFunctionParameterR(1.0);
