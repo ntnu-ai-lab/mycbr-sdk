@@ -5,11 +5,12 @@
   <version>3.3-SNAPSHOT</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <nd4j.version>1.0.0-beta3</nd4j.version>
+    <nd4j.version>1.0.0-M2</nd4j.version>
     <dl4j.version>1.0.0-beta3</dl4j.version>
-    <datavec.version>1.0.0-alpha</datavec.version>
     <arbiter.version>1.0.0-alpha</arbiter.version>
     <rl4j.version>1.0.0-alpha</rl4j.version>
+    <slf4j.version>1.7.36</slf4j.version>
+    <log4j.version>1.2.17</log4j.version>
     <mavenjar.version>3.1.1</mavenjar.version>
     <!-- <nd4j.backend>nd4j-cuda-8.0-platform</nd4j.backend> -->
     <nd4j.backend>nd4j-native-platform</nd4j.backend>
@@ -78,7 +79,7 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
+      <version>${log4j.version}</version>
     </dependency>
     <!-- ND4J backend. You need one in every DL4J project. Normally define artifactId as either "nd4j-native-platform" or "nd4j-cuda-7.5-platform" -->
     <dependency>
@@ -116,7 +117,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.25</version>
+      <version>${slf4j.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
